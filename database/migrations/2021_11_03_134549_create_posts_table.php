@@ -22,6 +22,7 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('type');
+            $table->string('subforum');
             $table->string('body');
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
