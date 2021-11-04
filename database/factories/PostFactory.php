@@ -16,12 +16,12 @@ class PostFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence($nbWords = 4, $variableNbWords = true),
-            //Up to four words for a title
+            //Around 4 words for a title
             'subforum' => $this->faker->word,
             //Random word to create the subforum
             'type' => $this->faker->randomElement(['Fun','Awareness','Question']), 
-            'body' => $this->faker->sentence($nbWords = 10, $variableNbWords = true),
-            //Up to ten words for a post
+            'body' => $this->faker->paragraph($nbSentences = 2, $variableNbSentences = true),
+            //Around 2 sentences for the body
             'user_id' => User::all()->random()->id,
         ];
     }
