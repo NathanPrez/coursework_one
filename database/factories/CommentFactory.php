@@ -17,7 +17,8 @@ class CommentFactory extends Factory
     {
         return [
             //Using up to 10 words for the comment
-            'body' => $this->faker->sentence($nbWords = 10, $variableNbWords = true),
+            //'body' => $this->faker->sentence($nbWords = 10, $variableNbWords = true),
+            'body' => $this->faker->text,
             'user_id' => User::all()->random()->id,
             'post_id' => Post::all()->random()->id,
         ];
