@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Post extends Model
 {
+    use HasFactory;
+
     public function user() 
     {
         return $this->belongsTo(User::class);
@@ -16,6 +18,4 @@ class Post extends Model
     {
         return $this->hasMany(Comment::class);
     }
-
-    use HasFactory;
 }
