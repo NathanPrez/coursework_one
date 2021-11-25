@@ -14,4 +14,14 @@ class UserProfile extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function follows()
+    {
+        return $this->hasMany(UserProfile::class);
+    }
+
+    public function followed()
+    {
+        return $this->belongsTo(UserProfile::class);
+    }
 }
