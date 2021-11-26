@@ -20,15 +20,13 @@ class CreatePostsTable extends Migration
             */
             
             $table->id();
-            $table->string('title');
-            $table->string('subforum');
             $table->string('type');
             $table->string('body');
-            $table->bigInteger('user_id')->unsigned();
+            $table->morphs('postable');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->
-            on('users')->onDelete('cascade')->onUpdate('cascade');
+            //$table->foreign('user_id')->references('id')->
+            //on('users')->onDelete('cascade')->onUpdate('cascade');
 
         });
     }

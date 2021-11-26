@@ -18,7 +18,7 @@ class CommentTableSeeder extends Seeder
         $c->post_id = 2;
         $c->commentable_id = 1;
         $c->commentable_type = "App\Models\UserProfile";
-        //$c->save();
+        $c->save();
 
         //comments = Comment::factory()->count(10)->create();
     }

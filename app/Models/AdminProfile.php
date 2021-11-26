@@ -14,6 +14,11 @@ class AdminProfile extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function posts() 
+    {
+        return $this->morphMany(Post::class, 'postable');
+    }
+
     public function comments() 
     {
         return $this->morphMany(Comment::class, 'commentable');

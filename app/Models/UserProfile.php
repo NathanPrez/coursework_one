@@ -25,8 +25,14 @@ class UserProfile extends Model
         return $this->belongsToMany('UserProfile', 'user_profile_user_profile', 'follows_id', 'user_profile_id');
     }
     
+    public function posts() 
+    {
+        return $this->morphMany(Post::class, 'postable');
+    }
+
     public function comments() 
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
 }
