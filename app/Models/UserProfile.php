@@ -17,11 +17,11 @@ class UserProfile extends Model
 
     public function follows()
     {
-        return $this->hasMany(UserProfile::class);
+        return $this->belongsToMany('UserProfile', 'user_profile_user_profile', 'user_profile_id', 'follows_id');
     }
 
     public function followed()
     {
-        return $this->belongsTo(UserProfile::class);
+        return $this->belongsToMany('UserProfile', 'user_profile_user_profile', 'follows_id', 'user_profile_id');
     }
 }
