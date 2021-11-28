@@ -14,7 +14,10 @@
     <body>
         <nav class="navbar navbar-expand-sm navbar-dark">
             <div class="container">
-                <a class="navbar-brand nav-link" href="index.html">SK8</a>
+                <a class="navbar-brand nav-link" href="index.html">
+                    <img src=" {{ URL::asset('imgs/logo.png') }} " alt="Logo" width="75" height="75">
+                    <!-- <img src=" {{ URL::asset('imgs/logo_hover.png') }} " alt="Logo Hover" width="75" height="75"> -->
+                </a>
 
                 <!-- Collapse Burger Button -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -25,7 +28,7 @@
                 <!-- Links -->
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"> <a class="nav-link" href="#">Cruise</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('posts.index')}}">Cruise</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="#">My Deck</a> </li>
                         </li>
                     </ul>
