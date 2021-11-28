@@ -52,8 +52,8 @@ h2 {
 }
 .title-with-icon img {
     display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     margin-right: 0.75em; 
 }
 
@@ -66,6 +66,7 @@ h2 {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+    cursor: pointer;
 }
 
 .shot {
@@ -77,17 +78,32 @@ h2 {
 .shot .postbox__comment-section hr {
     background-color: #FF652F;
 }
-.shot .postbox__header:hover{
+.shot:hover .postbox__header {
     background-color: #e63d00;
 }
+.shot:hover {
+    border-color: #e63d00;
+}
+
+
 .spot {
     border-color: #FFE400;
 }
 .spot .postbox__header {
     background-color: #FFE400;
+    color: #272727;
+}
+.spot .postbox__header a {
+    color: #272727;
 }
 .spot .postbox__comment-section hr {
     background-color: #FFE400;
+}
+.spot:hover .postbox__header {
+    background-color: #ccb800;
+}
+.spot:hover {
+    border-color: #ccb800;
 }
 
 .meet {
@@ -99,6 +115,12 @@ h2 {
 .meet .postbox__comment-section hr {
     background-color: #14A767;
 }
+.meet:hover .postbox__header {
+    background-color: #108955;
+}
+.meet:hover {
+    border-color: #108955;
+}
 
 .chat {
     border-color: #663a82;
@@ -108,6 +130,12 @@ h2 {
 }
 .chat .postbox__comment-section hr {
     background-color: #663a82;
+}
+.chat:hover .postbox__header {
+    background-color: #532f6a ;
+}
+.chat:hover {
+    border-color: #532f6a ;
 }
 
 .postbox__header__wrapper {
@@ -143,17 +171,16 @@ h2 {
 .postbox__comment-section {
     padding: 0.3em;
 }
-.postbox__comment-section hr {
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
-}
 .postbox__comment {
     padding: 0.5em;
     padding-top: 0.25em;
     padding-bottom: 0.25em;
     border: 1px solid #666;
     border-radius: 5px;
+    margin-bottom: 0.5em;
+}
+.postbox__comment p {
+    margin-bottom: 0;
 }
 .postbox__comment img {
     border-radius: 50%;
@@ -167,3 +194,15 @@ h2 {
     margin-left: 1em;
     margin-right: 1em;
 }
+
+/*
+.navbar-brand img:last-child {
+    display: none;
+}
+.navbar-brand:hover img:last-child {
+    display: block;
+}
+.navbar-brand:hover img:first-child {
+    display: none;
+}
+*/
