@@ -14,7 +14,7 @@
     <body>
         <nav class="navbar navbar-expand-sm navbar-dark">
             <div class="container">
-                <a class="navbar-brand nav-link" href="index.html">
+                <a class="navbar-brand nav-link" disabled>
                     <img src=" {{ URL::asset('imgs/logo.png') }} " alt="Logo" width="75" height="75">
                     <!-- <img src=" {{ URL::asset('imgs/logo_hover.png') }} " alt="Logo Hover" width="75" height="75"> -->
                 </a>

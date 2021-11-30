@@ -66,9 +66,10 @@ h2 {
     width: 80%;
     margin-left: auto;
     margin-right: auto;
+}
+.clickable .postbox {
     cursor: pointer;
 }
-
 .shot {
     border-color: #FF652F;
 }
@@ -78,10 +79,10 @@ h2 {
 .shot .postbox__comment-section hr {
     background-color: #FF652F;
 }
-.shot:hover .postbox__header {
+.clickable .shot:hover .postbox__header {
     background-color: #e63d00;
 }
-.shot:hover {
+.clickable .shot:hover {
     border-color: #e63d00;
 }
 
@@ -99,10 +100,10 @@ h2 {
 .spot .postbox__comment-section hr {
     background-color: #FFE400;
 }
-.spot:hover .postbox__header {
+.clickable .spot:hover .postbox__header {
     background-color: #ccb800;
 }
-.spot:hover {
+.clickable .spot:hover {
     border-color: #ccb800;
 }
 
@@ -115,10 +116,10 @@ h2 {
 .meet .postbox__comment-section hr {
     background-color: #14A767;
 }
-.meet:hover .postbox__header {
+.clickable .meet:hover .postbox__header {
     background-color: #108955;
 }
-.meet:hover {
+.clickable .meet:hover {
     border-color: #108955;
 }
 
@@ -131,11 +132,11 @@ h2 {
 .chat .postbox__comment-section hr {
     background-color: #663a82;
 }
-.chat:hover .postbox__header {
-    background-color: #532f6a ;
+.clickable .chat:hover .postbox__header {
+    background-color: #532f6a;
 }
-.chat:hover {
-    border-color: #532f6a ;
+.clickable .chat:hover {
+    border-color: #532f6a;
 }
 
 .postbox__header__wrapper {
@@ -162,7 +163,7 @@ h2 {
 }
 
 .postbox__content {
-    padding: 0.5em;
+    padding: 1em;
 }
 .postbox__content p {
     margin-bottom: 0;
