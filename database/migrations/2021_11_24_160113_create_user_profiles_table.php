@@ -16,6 +16,7 @@ class CreateUserProfilesTable extends Migration
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('username')->unique();
             $table->string('profilePicturePath')->default('default_profile_pic.png');
             $table->string('bio')->nullable();
             $table->bigInteger('user_id')->unsigned();

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Models\UserProfile;
+
 
 class PostController extends Controller
 {
@@ -15,8 +17,9 @@ class PostController extends Controller
      */
     public function index()
     {
+        $user = auth()->user();
         $posts = Post::all();
-        return view('posts.index', ['posts' => $posts]);
+        return view('posts.index', ['posts' => $posts], ['user' => $user]);
     }
 
     /**
@@ -26,7 +29,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('posts.create');
     }
 
     /**

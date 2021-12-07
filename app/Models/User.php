@@ -19,7 +19,12 @@ class User extends Authenticatable
 
     public function userProfile() 
     {
-        return $this->hasOne(userProfile::class);
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public function adminProfile() 
+    {
+        return $this->hasOne(AdminProfile::class);
     }
 
     /**

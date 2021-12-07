@@ -22,6 +22,7 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('type');
             $table->string('body');
+            $table->string('imagePath')->nullable();
             $table->morphs('postable');
             $table->timestamps();
 
