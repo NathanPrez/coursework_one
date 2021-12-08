@@ -10,6 +10,9 @@
                 </div>
                 <div class="postbox__content">
                     <p>{{$post->body}}</p>
+                    @if($post->type == "shot")
+                        <img src="{{ asset('storage/user_content/' . $post->imagePath) }}">
+                    @endif
                 </div>
             </div>
         </div>
