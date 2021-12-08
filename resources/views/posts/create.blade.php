@@ -1,16 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <form id="post-form" method="post" action="{{route('posts.store')}}">
+    <form id="post-form" method="post" action="{{route('posts.store')}}" enctype="multipart/form-data">
         @csrf
         <div class="row space-bottom">
             <div class="col-md-2 mx-auto">Post Type:</div>
             <div class="col-md-8 content-div mx-auto">        
-                <select id="type" name="type" onchange="checkType()">
-                    <option value="shot">Shot</option>
+                <select name="type" onchange="checkType()">
+                    <option value="shot" selected>Shot</option>
                     <option value="chat">Chat</option>
                     <option value="meet">Meet</option>
-                    <option value="spot">Spot</option>
                 </select>
             </div>
         </div>
@@ -18,14 +17,14 @@
         <div class="row">
             <div class="col-md-2 mx-auto">Content:</div>
             <div class="col-md-8 content-div mx-auto">        
-                <textarea name="body"></textarea>
+                <textarea name="body" required></textarea>
             </div>
         </div>
-
+    
         <div id="image-upload" class="row">
-            <div class="col-md-2 mx-auto">Image:</div>
+            <div class="col-md-2 mx-auto">Video / Image:</div>
             <div class="col-md-8 content-div mx-auto">        
-                <textarea name="body"></textarea>
+                <input type="file" name="file" required>
             </div>
         </div>
         
@@ -41,7 +40,6 @@
 
 @section('js')
     <script>
-
         function hide(name) {
             document.getElementById(name).classList.add("hide");
         }
@@ -53,12 +51,16 @@
             }
         }
 
+        //Called whenever the select is changed
+        //Checks if post is of type 'Shot'
+        //if so display file upload, otherwise hide
         function checkType(){
-            console.log(document.getElementById("type").value);
             if(document.forms["post-form"]["type"].value == "shot") {
                 show("image-upload");
+                document.forms["post-form"]["file"].setAttribute("required", "");
             } else { 
                 hide("image-upload");
+                document.forms["post-form"]["file"].removeAttribute("required");
             }
         }
     </script>

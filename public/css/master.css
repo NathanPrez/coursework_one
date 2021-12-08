@@ -89,27 +89,6 @@ h2 {
     border-color: #e63d00;
 }
 
-
-.spot {
-    border-color: #FFE400;
-}
-.spot .postbox__header {
-    background-color: #FFE400;
-    color: #272727;
-}
-.spot .postbox__header a {
-    color: #272727;
-}
-.spot .postbox__comment-section hr {
-    background-color: #FFE400;
-}
-.clickable .spot:hover .postbox__header {
-    background-color: #ccb800;
-}
-.clickable .spot:hover {
-    border-color: #ccb800;
-}
-
 .meet {
     border-color: #14A767;
 }

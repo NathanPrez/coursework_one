@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Validator;
 use App\Models\Post;
 use App\Models\Comment;
-use App\Models\UserProfile;
 
 
 class PostController extends Controller
@@ -17,9 +17,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $user = auth()->user();
         $posts = Post::all();
-        return view('posts.index', ['posts' => $posts], ['user' => $user]);
+        return view('posts.index', ['posts' => $posts]);
     }
 
     /**
@@ -40,7 +39,44 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            "type" => "required|max:5",
+            "body" => "required|max:511"
+        ]);
+
+        $p = new Post;
+        $p->type = $validatedData["type"];
+        $p->body = $validatedData["body"];
+
+        $user = auth()->user();
+        if ($user->UserProfile !== null) 
+        {
+            $p->postable_id = $user->userProfile->id;
+            $p->postable_type = "App\Models\UserProfile";
+        } 
+        else 
+        {
+            $p->postable_id = $user->adminProfile->id;
+            $p->postable_type = "App\Models\AdminProfile";
+        }
+
+        if ($request->hasFile('file')) 
+        {
+            $request->validate([
+                "image" => "mimes:jpeg,png,mp4,mov",
+            ]);
+
+            $request->file->store('user_content', 'public');
+
+            $p->imagePath = $request->file->hashName();
+        }
+        else 
+        {
+            $p->imagePath = "No";
+        }
+
+        $p->save();
+        return redirect()->route('posts.index');
     }
 
     /**
