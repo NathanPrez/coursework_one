@@ -23,7 +23,7 @@ h2 {
     letter-spacing: 0.1em;
 }
 
-.hidden {
+.hide {
     display: none;
 }
 .parent-wrap {
@@ -225,4 +225,7 @@ h2 {
 }
 .content-div select {
     padding: 0.3em;
+}
+.button--submit {
+    display: inline-block;
 }
