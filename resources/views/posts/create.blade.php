@@ -38,19 +38,8 @@
 @endsection
 
 
-@section('js')
+@section('js-start')
     <script>
-        function hide(name) {
-            document.getElementById(name).classList.add("hide");
-        }
-
-        function show(name) {
-            var elem = document.getElementById(name).classList;
-            if (elem.contains("hide")) {
-                document.getElementById(name).classList.remove("hide");
-            }
-        }
-
         //Called whenever the select is changed
         //Checks if post is of type 'Shot'
         //if so display file upload, otherwise hide
