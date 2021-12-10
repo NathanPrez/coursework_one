@@ -9,7 +9,7 @@ body {
     color: whitesmoke;
 }
 a {
-    color: #26abff;
+    color: #26abff !important;
     transition: 0.4s;
 }
 a:hover {
@@ -206,8 +206,8 @@ button:hover {
 .nav-link {
     margin-left: 1em;
     margin-right: 1em;
+    cursor: pointer;
 }
-
 /*
 .navbar-brand img:last-child {
     display: none;
@@ -237,4 +237,13 @@ button:hover {
 }
 .button--submit {
     display: inline-block;
+}
+
+@media (max-width: 768px) {
+    .back {
+        left: 0%;
+    }
+    .postbox {
+        width: 100%;
+    }
 }

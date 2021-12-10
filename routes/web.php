@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\UserController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -15,12 +17,12 @@ use App\Http\Controllers\PostController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-    //return redirect('/posts');
+    //return view('welcome');
+    return redirect('/posts');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return redirect('/posts');
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('/posts', [PostController::class, 'index'])
@@ -31,5 +33,13 @@ Route::post('/posts', [PostController::class, 'store'])
     ->name('posts.store');
 Route::get('/posts/{id}', [PostController::class, 'show'])
     ->name('posts.show');
+
+Route::post("/users/logout", [UserController::class, 'logout'])
+    ->name('users.logout');
+
+Route::get('/users/logout', function () {
+    //return view('welcome');
+    return redirect('/posts');
+});
 
 require __DIR__.'/auth.php';

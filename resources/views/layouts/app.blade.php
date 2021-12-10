@@ -21,32 +21,46 @@
                     document.getElementById(name).classList.remove("hide");
                 }
             }
+
+            function submit() {
+                document.getElementById('logout-form').submit();
+            }
         </script>
         @yield('js')
     </head>
     <body>
-        <nav class="navbar navbar-expand-sm navbar-dark">
-            <div class="container">
-                <a class="navbar-brand nav-link" disabled>
-                    <img src=" {{ URL::asset('imgs/logo.png') }} " alt="Logo" width="75" height="75">
-                    <!-- <img src=" {{ URL::asset('imgs/logo_hover.png') }} " alt="Logo Hover" width="75" height="75"> -->
-                </a>
+        <nav class="navbar navbar-expand-md navbar-dark">
+            <a class="navbar-brand nav-link" disabled>
+                <img src=" {{ URL::asset('imgs/logo.png') }} " alt="Logo" width="75" height="75">
+                <!-- <img src=" {{ URL::asset('imgs/logo_hover.png') }} " alt="Logo Hover" width="75" height="75"> -->
+            </a>
 
-                <!-- Collapse Burger Button -->
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+            <!-- Collapse Burger Button -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <!-- Links -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"> <a class="nav-link" href="{{route('posts.index')}}">Cruise</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="#">My Deck</a> </li>
-                        <li class="nav-item"> <a class="nav-link" href="{{route('posts.create')}}">Post</a> </li>
-                        </li>
-                    </ul>
-                </div>
+            <!-- Links -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"> <a class="nav-link" href="{{route('posts.index')}}">Cruise</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="#">My Deck</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{route('posts.create')}}">Create Post</a> </li>
+                </ul>
+
+                @guest
+                    <a class="nav-link nav-item" href="{{ route('login') }}">Log in</a>
+
+                    @if (Route::has('register'))
+                        <a class="nav-link nav-item" href="{{ route('register') }}">Register</a>
+                    @endif
+                @else
+                    <form id="logout-form" method="post" action="{{ route('users.logout') }}">
+                        @csrf
+                        <a class="nav-link nav-item" onclick="submit()">Log Out</a> 
+                    </form>
+                @endguest
             </div>
         </nav>
 
