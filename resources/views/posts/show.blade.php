@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+    <button class="back" onclick="location.href='{{ route('posts.index') }}'">Back</button>
+
     <div class="postbox {{$post->type}}">
         <div class="postbox__header">
             <img src="../imgs/default_profile_pic.jpg" alt="Profile Picture">

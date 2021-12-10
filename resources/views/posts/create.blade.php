@@ -38,7 +38,7 @@
 @endsection
 
 
-@section('js-start')
+@section('js')
     <script>
         //Called whenever the select is changed
         //Checks if post is of type 'Shot'

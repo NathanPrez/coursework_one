@@ -8,7 +8,6 @@ body {
     font-family: Verdana, sans-serif;
     color: whitesmoke;
 }
-
 a {
     color: #26abff;
     transition: 0.4s;
@@ -17,15 +16,34 @@ a:hover {
     color: #59bfff !important;
     text-decoration: none;
 }
-
 h2 {
     font-size: 16px;
     letter-spacing: 0.1em;
 }
+button {
+    font-weight: bold;
+    border-radius: 5px;
+    border-style: solid;
+    padding: 0.3em;
+    padding-left: 1em;
+    padding-right: 1em;
+    transition: 0.3s;
+    letter-spacing: 0.05em;
+    background-color: #59bfff;
+    border-color: #59bfff;
+    color: #fff;
+}
+button:hover {
+    background-color: #fff;
+    color: #59bfff;
+    cursor: pointer;
+}
+
 
 .hide {
     display: none !important;
 }
+
 .parent-wrap {
     overflow: hidden;
     position: relative;
@@ -42,6 +60,12 @@ h2 {
 }
 .content {
     position: relative;
+}
+.back {
+    position: relative;
+    display: block;
+    left: 10%;
+    margin-top: 2em;
 }
 
 .title-with-icon {
