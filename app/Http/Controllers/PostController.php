@@ -70,10 +70,6 @@ class PostController extends Controller
 
             $p->imagePath = $request->file->hashName();
         }
-        else 
-        {
-            $p->imagePath = "No";
-        }
 
         $p->save();
         return redirect()->route('posts.index');

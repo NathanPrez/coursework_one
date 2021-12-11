@@ -11,7 +11,7 @@
         <div class="postbox__content">
             <p>{{$post->body}}</p>
             @if($post->type == "shot")
-            @if( pathinfo(storage_path($post->imagePath))['extension'] == "mp4" )
+                @if( pathinfo(storage_path($post->imagePath))['extension'] == "mp4" )
                     <video id="post-video" controls>
                         <source src="{{ asset('storage/user_content/' . $post->imagePath) }}">
                     </video>

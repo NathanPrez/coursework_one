@@ -21,8 +21,8 @@ class PostTableSeeder extends Seeder
         $p1->save();
 
         $p2 = new Post;
-        $p2->type = "shot";
-        $p2->body = "Checkout this great bench";
+        $p2->type = "meet";
+        $p2->body = "Meet at 7";
         $p2->postable_id = 2;
         $p2->postable_type = "App\Models\UserProfile";
         $p2->save();

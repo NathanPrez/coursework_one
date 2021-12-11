@@ -165,7 +165,7 @@ button:hover {
     border: 3px solid #272727;
 }
 .postbox__header a {
-    color: #fff;
+    color: #fff !important;
 }
 
 .postbox__content {
@@ -221,7 +221,7 @@ button:hover {
 */
 
 /** POST **/
-#post-form {
+#post-form, #user-form {
     margin-top: 2em;
     margin-top: 2em;
 }
@@ -245,5 +245,10 @@ button:hover {
     }
     .postbox {
         width: 100%;
+    }
+
+    .navbar-collapse .nav-link {
+        padding-left: 0;
+        padding-right: 0;
     }
 }
