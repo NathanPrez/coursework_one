@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\AdminProfile;
 
 
 class UserController extends Controller
 {
-    public function index()
+    public function show(User $user)
     {
-        return view('users.index');
+        return view('users.show', ['user' => $user]);
     }
 
 
@@ -60,7 +61,7 @@ class UserController extends Controller
 
             $request->file->store('user_content', 'public');
 
-            $u->imagePath = $request->file->hashName();
+            $u->profilePicturePath = $request->file->hashName();
         }
 
         $u->save();

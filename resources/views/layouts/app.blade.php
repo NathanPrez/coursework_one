@@ -7,6 +7,7 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ URL::asset('css/master.css') }}">
+        @yield('css')
 
         <title>SK8</title>
 
@@ -44,9 +45,11 @@
             <!-- Links -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item"> <a class="nav-link" href="{{route('posts.index')}}">Cruise</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="#">My Deck</a> </li>
-                    <li class="nav-item"> <a class="nav-link" href="{{route('posts.create')}}">Create Post</a> </li>
+                    <li class="nav-item"> <a class="nav-link" href="{{ route('posts.index') }}">Cruise</a> </li>
+                    @auth
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('users.show', ['user' => auth()->user()]) }}">My Deck</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('posts.create') }}">Create Post</a> </li>
+                    @endauth
                 </ul>
 
                 @guest

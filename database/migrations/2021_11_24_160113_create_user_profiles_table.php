@@ -17,7 +17,7 @@ class CreateUserProfilesTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('username')->unique();
-            $table->string('profilePicturePath')->default('default_profile_pic.png');
+            $table->string('profilePicturePath')->default('default_profile_pic.jpg');
             $table->string('bio')->nullable();
             $table->bigInteger('user_id')->unsigned();
 

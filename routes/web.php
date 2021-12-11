@@ -26,25 +26,22 @@ Route::get('/dashboard', function () {
 
 Route::get('/posts', [PostController::class, 'index'])
     ->name('posts.index');
-Route::get('/posts/create', [PostController::class, 'create'])
+Route::get('/posts/create', [PostController::class, 'create'])->middleware(['auth']) 
     ->name('posts.create');
-
 Route::post('/posts', [PostController::class, 'store'])
     ->name('posts.store');
-
 Route::get('/posts/{id}', [PostController::class, 'show'])
     ->name('posts.show');
 
-Route::get('/users', [UserController::class, 'index'])
-    ->name('users.index');
-Route::get('/users/create', [UserController::class, 'create'])
+
+Route::get('/users/create', [UserController::class, 'create'])->middleware(['auth']) 
     ->name('users.create');
-
-Route::post('/users', [UserController::class, 'store'])
+Route::post('/users', [UserController::class, 'store'])->middleware(['auth']) 
     ->name('users.store');
-
 Route::post("/users/logout", [UserController::class, 'logout'])
     ->name('users.logout');
+Route::get('/users/{user}', [UserController::class, 'show'])
+    ->name('users.show');
 
 Route::get('/users/logout', function () {
     return redirect('/posts');

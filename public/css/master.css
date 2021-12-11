@@ -43,7 +43,9 @@ button:hover {
 .hide {
     display: none !important;
 }
-
+.centre {
+    text-align: center;
+}
 .parent-wrap {
     overflow: hidden;
     position: relative;
@@ -162,7 +164,7 @@ button:hover {
     margin-right: 1em;
     margin-top: 0.2em;
     margin-bottom: 0.2em;
-    border: 3px solid #272727;
+    border: 3px solid #fff;
 }
 .postbox__header a {
     color: #fff !important;

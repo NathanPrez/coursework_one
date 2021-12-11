@@ -6,7 +6,13 @@
     <div class="postbox {{$post->type}}">
         <div class="postbox__header">
             <img src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
-            <a href="">{{$post->postable->user->name}}</a>
+            <a href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">
+                @if($post->postable->user->userProfile == null)
+                    Admin {{$post->postable->user->adminProfile->id}}
+                @else
+                    {{ $post->postable->user->userProfile->username }}
+                @endif
+            </a>
         </div>
         <div class="postbox__content">
             <p>{{$post->body}}</p>
