@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Auth;
+use App\Models\UserProfile;
 use App\Models\Post;
 use App\Models\Comment;
 

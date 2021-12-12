@@ -7,6 +7,9 @@
     margin-bottom: 2em;
     margin-left: auto;
     margin-right: auto;
+    padding: 0.5em;
+    padding-top: 1em;
+    padding-bottom: 1em;
 }
 .userbox h2 {
     font-size: 22px;
@@ -19,7 +22,6 @@
     border: 2px solid;
     border-color: #fff;
     border-radius: 100%;
-    margin-top: 1em;
 }
 
 @media (max-width: 768px) {
@@ -28,12 +30,6 @@
     }
     .userbox img {
         width: 100px;
-    }
-}
-@media (max-width: 576px) {
-    .userbox img {
-        width: 100%;
-        margin-left: 0.5em;
-        margin-right: 0.5em;
+        height: 100px;
     }
 }

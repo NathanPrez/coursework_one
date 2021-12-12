@@ -14,7 +14,15 @@ class UserController extends Controller
 {
     public function show(User $user)
     {
-        return view('users.show', ['user' => $user]);
+        if (auth()->user() == null or auth()->user()->userProfile == null)
+        {
+            $viewingUser = null;
+        }
+        else 
+        {
+            $viewingUser = auth()->user()->userProfile;
+        }
+        return view('users.show', ['user' => $user], ['viewingUser' => $viewingUser]);
     }
 
 
@@ -80,4 +88,24 @@ class UserController extends Controller
     
         return redirect('/');
     }   
+
+
+    public function follow(User $user)
+    {
+        $viewingUser = auth()->user()->userProfile;
+        
+        $viewingUser->follows()->attach($user->id);
+
+        return redirect()->route("users.show", ['user' => $user]);
+    }
+    
+
+    public function unfollow(User $user)
+    {
+        $viewingUser = auth()->user()->userProfile;
+
+        $viewingUser->follows()->detach($user->id);
+
+        return redirect()->route("users.show", ['user' => $user]);
+    } 
 }

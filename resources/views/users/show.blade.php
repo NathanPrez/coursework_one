@@ -19,17 +19,50 @@
                     @endif
                 @endif
             </div>
-            <div class="col-md-8 my-auto">
-                @if($user->userProfile == null)
-                    <h2>Admin {{ $user->adminProfile->id }}</h2>
-                @else
-                    <h2>{{ $user->userProfile->username }}</h2>
-                    <p>{{ $user->userProfile->bio }}</p>
-                @endif
-            </div>
+            @guest
+                <div class="col-md-8 my-auto">
+                    @if($user->userProfile == null)
+                        <h2>Admin {{ $user->adminProfile->id }}</h2>
+                    @else
+                        <h2>{{ $user->userProfile->username }}</h2>
+                        <p>{{ $user->userProfile->bio }}</p>
+                    @endif
+                </div>
+            @endguest
+            
+            @auth
+                <div class="col-md-6 my-auto">
+                    @if($user->userProfile == null)
+                        <h2>Admin {{ $user->adminProfile->id }}</h2>
+                    @else
+                        <h2>{{ $user->userProfile->username }}</h2>
+                        <p>{{ $user->userProfile->bio }}</p>
+                    @endif
+                </div>
+                 <div class="col-md-2 my-auto">
+                    @if($viewingUser !== null)
+                        @if($viewingUser->follows->contains($user->userProfile->id))
+                            <form id="unfollow-form" method="post" action="{{ route('users.unfollow', ['user' => $user]) }}" enctype="multipart/form-data">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit">Unfollow</button>
+                            </form>
+                        @elseif($viewingUser->id == $user->userProfile->id)
+                            <button class="disabled" disabled>Follow</button>
+                        @else
+                            <form id="follow-form" method="get" action="{{ route('users.follow', ['user' => $user]) }}" enctype="multipart/form-data">
+                                @csrf
+                                <button type="submit">Follow</button>
+                            </form>
+                        @endif
+                    @endif
+                </div>
+            @endauth
         </div>
         
-        <p></p>
+
+
+        
     </div>
 @endsection
 

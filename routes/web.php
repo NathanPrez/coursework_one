@@ -42,6 +42,10 @@ Route::post("/users/logout", [UserController::class, 'logout'])
     ->name('users.logout');
 Route::get('/users/{user}', [UserController::class, 'show'])
     ->name('users.show');
+Route::get('/users/{user}/follow', [UserController::class, 'follow'])
+    ->name('users.follow');
+Route::delete('/users/{user}/unfollow', [UserController::class, 'unfollow'])
+    ->name('users.unfollow');
 
 Route::get('/users/logout', function () {
     return redirect('/posts');
