@@ -51,6 +51,7 @@ class PostController extends Controller
         $p->body = $validatedData["body"];
 
         $user = auth()->user();
+        /* Polymorphic relationship, needs to set what type of profile uploaded */
         if ($user->UserProfile !== null) 
         {
             $p->postable_id = $user->userProfile->id;
@@ -62,7 +63,11 @@ class PostController extends Controller
             $p->postable_type = "App\Models\AdminProfile";
         }
 
-        if ($request->hasFile('file')) 
+        /* 
+            If they have uploaded a file 
+            and if they chose the 'shot' from dropwdown - extra security
+        */
+        if ($request->hasFile('file') and $request->type == "shot") 
         {
             $request->validate([
                 "image" => "mimes:jpeg,png,mp4,mov",

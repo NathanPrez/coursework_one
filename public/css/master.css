@@ -169,6 +169,9 @@ button:hover {
 .postbox__header a {
     color: #fff !important;
 }
+.postbox__header a:hover {
+    color: #272727 !important;
+}
 
 .postbox__content {
     padding: 1em;

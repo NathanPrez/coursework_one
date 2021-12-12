@@ -7,11 +7,14 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ URL::asset('css/master.css') }}">
+        <!-- For page specific css -->
         @yield('css')
 
         <title>SK8</title>
 
+        
         <script>
+            /* JS hides or shows specific elements */
             function hide(name) {
                 document.getElementById(name).classList.add("hide");
             }
@@ -23,17 +26,22 @@
                 }
             }
 
+            /* Logs out user */
             function submit() {
                 document.getElementById('logout-form').submit();
             }
         </script>
+
+        <!-- Page specific JS -->
         @yield('js')
     </head>
+
     <body>
+        <!-- Navigation bar -->
         <nav class="navbar navbar-expand-md navbar-dark">
+            <!-- Logo -->
             <a class="navbar-brand nav-link" disabled>
                 <img src=" {{ URL::asset('imgs/logo.png') }} " alt="Logo" width="75" height="75">
-                <!-- <img src=" {{ URL::asset('imgs/logo_hover.png') }} " alt="Logo Hover" width="75" height="75"> -->
             </a>
 
             <!-- Collapse Burger Button -->
@@ -47,11 +55,14 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"> <a class="nav-link" href="{{ route('posts.index') }}">Cruise</a> </li>
                     @auth
+                        <!-- Only logged in users can view their profile/upload -->
                         <li class="nav-item"> <a class="nav-link" href="{{ route('users.show', ['user' => auth()->user()]) }}">My Deck</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('posts.create') }}">Create Post</a> </li>
                     @endauth
                 </ul>
 
+                <!-- Login / Logout links -->
+                <!-- Float right as they're not inside the 'navbar-nav' li -->
                 @guest
                     <a class="nav-link nav-item" href="{{ route('login') }}">Log in</a>
 

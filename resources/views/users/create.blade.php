@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('content')
+    <!-- Profile creation -->
     <form id="user-form" method="post" action="{{route('users.store')}}" enctype="multipart/form-data">
         @csrf
         <div class="row space-bottom">
             <div class="col-lg-2 col-sm-4 mx-auto">Profile Type:</div>
-            <div class="col-sm-8 content-div">        
+            <div class="col-sm-8 content-div">     
+                <!-- checkType will hide/show certain input fields -->   
                 <select name="type" onchange="checkType()">
                     <option value="user">User</option>
                     <option value="admin">Admin</option>
@@ -47,8 +49,8 @@
 @section('js')
     <script>
         //Called whenever the select is changed
-        //Checks if post is of type 'Shot'
-        //if so display file upload, otherwise hide
+        //Checks if post is of type 'user'
+        //if so display username change and bio
         function checkType(){
             if(document.forms["user-form"]["type"].value == "user") {
                 show("username-input");

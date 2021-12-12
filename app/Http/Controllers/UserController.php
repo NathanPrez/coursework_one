@@ -14,6 +14,7 @@ class UserController extends Controller
 {
     public function show(User $user)
     {
+        /* Check if the user is logged in */
         if (auth()->user() == null or auth()->user()->userProfile == null)
         {
             $viewingUser = null;
@@ -28,6 +29,7 @@ class UserController extends Controller
 
     public function create()
     {
+        /*
         $user = auth()->user();
         if ($user->userProfile == null and $user->adminProfile == null) 
         {
@@ -37,17 +39,21 @@ class UserController extends Controller
         {
             return redirect()->route('posts.index');
         }
+        */
+        return view('users.create');
     }
 
 
     public function store(Request $request)
     {
+        /* Username must be unique */
         $validatedData = $request->validate([
             "type" => "required|max:5",
             "username" => "unique:user_profiles|max:20",
             "bio" => "max:100",
         ]);
         
+        /* Creating and adding data to model */
         if ($validatedData["type"] == "user")
         {
             $u = new UserProfile;
@@ -61,6 +67,7 @@ class UserController extends Controller
 
         $u->user_id = auth()->user()->id;
 
+        /* If they have uploaded an image */
         if ($request->hasFile('file')) 
         {
             $request->validate([
