@@ -67,29 +67,31 @@
             el: "#comments",
             data: {
                 comments: [],
-                newCommentBody: '',
-                newCommentId: {{$userId}},
-                newCommentUserType: '{{$userType}}',
+                @auth
+                    newCommentBody: '',
+                    newCommentId: {{$userId}},
+                    newCommentUserType: '{{$userType}}',
+                @endauth
             },
-            methods:{
-                createComment:function(){
-                    axios.post("{{ route('api.comments.store', ['post'=>$post]) }}",
-                    {   
-                        body:this.newCommentBody,
-                        userId:this.newCommentId,
-                        userType:this.newCommentUserType,
-                    })
-                    .then(response=>{
-                        this.comments = response.data;
-                        this.newCommentBody='';
-                        this.newCommentId='';
-                        this.newCommentUserType='';
-                    })
-                    .catch(response=>{
-                        console.log(response);
-                    })
-                }
-            },
+            @auth
+                methods:{
+                    createComment:function(){
+                        axios.post("{{ route('api.comments.store', ['post'=>$post]) }}",
+                        {   
+                            body:this.newCommentBody,
+                            userId:this.newCommentId,
+                            userType:this.newCommentUserType,
+                        })
+                        .then(response=>{
+                            this.comments = response.data;
+                            this.newCommentBody='';
+                        })
+                        .catch(response=>{
+                            console.log(response);
+                        })
+                    }
+                },
+            @endauth
             mounted() {
                 axios.get("{{ route('api.comments.index', ['post' => $post]) }}")
                     .then(response => {

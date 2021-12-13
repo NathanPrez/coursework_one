@@ -63,7 +63,6 @@ class PostController extends Controller
             $p->postable_id = $user->adminProfile->id;
             $p->postable_type = "App\Models\AdminProfile";
         }
-
         /* 
             If they have uploaded a file 
             and if they chose the 'shot' from dropwdown - extra security
@@ -93,17 +92,23 @@ class PostController extends Controller
     {
         $user = auth()->user();
 
-        if ($user->UserProfile !== null) 
+        if($user !== null) 
         {
-            $userType = "UserProfile";
-            $userId = $user->userProfile->id;
-        } 
-        else 
-        {
-            $userType = "AdminProfile";
-            $userId = $user->adminProfile->id;
+            if ($user->UserProfile !== null) 
+            {
+                $userType = "UserProfile";
+                $userId = $user->userProfile->id;
+            } 
+            else 
+            {
+                $userType = "AdminProfile";
+                $userId = $user->adminProfile->id;
+            }
+            return view('posts.show', ['post' => $post, 'userId' => $userId, 'userType' => $userType]);
         }
-        return view('posts.show', ['post' => $post, 'userId' => $userId, 'userType' => $userType]);
+        else {
+            return view('posts.show', ['post' => $post]);
+        }
     }
 
     /**
@@ -151,6 +156,7 @@ class PostController extends Controller
     {
         $c = new Comment();
         $c->body = $request["body"];
+        
         if ($request["userType"] == "UserProfile")
         {
             $c->commentable_type = "App\Models\UserProfile";
