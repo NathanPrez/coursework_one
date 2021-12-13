@@ -44,24 +44,24 @@
             <div id="comments">
                 <div class="postbox__comment" v-for="comment in comments">
                     <img class="profile-pic" src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
-                    <a disabled></a>
+                    <a disabled>@{{ comment.commentable.username }}</a>
                     <p>@{{ comment.body }}</p>
                 </div>
-
-                <div class="postbox__comment comment-creation">
-                    <div class="row">
-                        <div class="col-md-11">
-                            <input type="text" id="body" v-model="newCommentBody">
-                        </div>
-                        <div class="col-md-1 mx-auto">
-                            <button @click="createComment">Create</button>
+                @auth
+                    <div class="postbox__comment comment-creation">
+                        <div class="row">
+                            <div class="col-md-11 my-auto">
+                                <input placeholder="Write a comment" type="text" id="body" v-model="newCommentBody">
+                            </div>
+                            <div class="col-md-1 mx-auto">
+                                <button @click="createComment"><img src="../imgs/upload.png" width="30"></button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endauth
             </div>
         </div>
     </div>
-    {{$userType}}
     <script>
         var app = new Vue ({
             el: "#comments",
@@ -80,7 +80,7 @@
                         userType:this.newCommentUserType,
                     })
                     .then(response=>{
-                        this.comments.push(response.data);
+                        this.comments = response.data;
                         this.newCommentBody='';
                         this.newCommentId='';
                         this.newCommentUserType='';

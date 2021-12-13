@@ -95,12 +95,12 @@ class PostController extends Controller
 
         if ($user->UserProfile !== null) 
         {
-            $userType = "App\Models\UserProfile";
+            $userType = "UserProfile";
             $userId = $user->userProfile->id;
         } 
         else 
         {
-            $userType = "App\Models\AdminProfile";
+            $userType = "AdminProfile";
             $userId = $user->adminProfile->id;
         }
         return view('posts.show', ['post' => $post, 'userId' => $userId, 'userType' => $userType]);
@@ -151,13 +151,21 @@ class PostController extends Controller
     {
         $c = new Comment();
         $c->body = $request["body"];
+        if ($request["userType"] == "UserProfile")
+        {
+            $c->commentable_type = "App\Models\UserProfile";
+        }
+        else 
+        {
+            $c->commentable_type = "App\Models\AdminProfile";
+        }
+
         $c->commentable_id = $request["userId"];
-        $c->commentable_type = $request["userType"];
         $c->post_id = $post->id;
         $c->save();
 
-        //$withCommentable = $c->with('commentable')->get();
+        $postComments = Comment::with('commentable')->where('post_id', $post->id)->get();
 
-        return $c;
+        return $postComments;
     }
 }
