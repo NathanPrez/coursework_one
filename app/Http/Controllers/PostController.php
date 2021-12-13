@@ -91,8 +91,7 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
-        $comments = Comment::all();
-        return view('posts.show', ['post' => $post], ['comments' => $comments]);
+        return view('posts.show', ['post' => $post]);
     }
 
     /**
@@ -127,5 +126,11 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function apiIndex()
+    {
+        $comments = Comment::with('commentable')->get();
+        return $comments;
     }
 }

@@ -3,7 +3,7 @@
 @section('content')
     <!-- Showing full post -->
     <button class="back" onclick="location.href='{{ route('posts.index') }}'">Back</button>
-
+    
     <div class="postbox {{$post->type}}">
         <div class="postbox__header">
             <img src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
@@ -35,17 +35,41 @@
             <div class="title-with-icon">
                 <img class="img-icon" src="../imgs/comment.png" alt="Comment">
                 <h2>Comments</h2>
-            </div>  
-            @foreach($comments as $comment)
-                @if($comment->post->id == $post->id)
-                    <div class="postbox__comment">
-                        <img src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
-                        <a href="">{{$comment->commentable->user->name}}</a>
-                        <p>{{$comment->body}}</p>
-                    </div>
-                @endif
-            @endforeach
+            </div>
+            <div id="comments">
+                <div class="postbox__comment" v-for="comment in comments">
+                    <img src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
+                    <a disabled>@{{ comment.commentable.username }}</a>
+                    <p>@{{ comment.body }}</p>
+                </div>
+            </div>
         </div>
     </div>
+
+
+    <script>
+        var app = new Vue ({
+            el: "#comments",
+            data: {
+                comments: [],
+            },
+            mounted() {
+                axios.get("{{ route('api.comments.index') }}")
+                    .then(response=> {
+                        this.comments = response.data;
+                    })
+                    .catch(response=>{
+                        console.log(response);
+                    })
+            }
+
+        });
+    </script>
 @endsection
+
+@section('js')
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+@endsection
+
 
