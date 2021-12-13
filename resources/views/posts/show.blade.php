@@ -29,6 +29,11 @@
                 @endif
             @endif
         </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js" 
+        integrity="sha512-u9akINsQsAkG9xjc1cnGF4zw5TFDwkxuc9vUp5dltDWYCSmyd0meygbvgXrlc/z7/o4a19Fb5V0OUE58J7dcyw==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <!-- Comments only showed on this view, index only shows post content -->
         <div class="postbox__comment-section">
             <hr>
@@ -38,38 +43,66 @@
             </div>
             <div id="comments">
                 <div class="postbox__comment" v-for="comment in comments">
-                    <img src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
-                    <a disabled>@{{ comment.commentable.username }}</a>
+                    <img class="profile-pic" src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
+                    <a disabled></a>
                     <p>@{{ comment.body }}</p>
+                </div>
+
+                <div class="postbox__comment comment-creation">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <input type="text" id="body" v-model="newCommentBody">
+                        </div>
+                        <div class="col-md-1 mx-auto">
+                            <button @click="createComment">Create</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-
+    {{$userType}}
     <script>
         var app = new Vue ({
             el: "#comments",
             data: {
                 comments: [],
+                newCommentBody: '',
+                newCommentId: {{$userId}},
+                newCommentUserType: '{{$userType}}',
+            },
+            methods:{
+                createComment:function(){
+                    axios.post("{{ route('api.comments.store', ['post'=>$post]) }}",
+                    {   
+                        body:this.newCommentBody,
+                        userId:this.newCommentId,
+                        userType:this.newCommentUserType,
+                    })
+                    .then(response=>{
+                        this.comments.push(response.data);
+                        this.newCommentBody='';
+                        this.newCommentId='';
+                        this.newCommentUserType='';
+                    })
+                    .catch(response=>{
+                        console.log(response);
+                    })
+                }
             },
             mounted() {
                 axios.get("{{ route('api.comments.index', ['post' => $post]) }}")
-                    .then(response=> {
+                    .then(response => {
                         this.comments = response.data;
                     })
-                    .catch(response=>{
+                    .catch(response =>{
+                        console.log("This aint work");
                         console.log(response);
                     })
             }
 
         });
     </script>
-@endsection
-
-@section('js')
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 @endsection
 
 

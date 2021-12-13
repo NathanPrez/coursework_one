@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\Post;
 use App\Models\Comment;
@@ -90,7 +91,19 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('posts.show', ['post' => $post]);
+        $user = auth()->user();
+
+        if ($user->UserProfile !== null) 
+        {
+            $userType = "App\Models\UserProfile";
+            $userId = $user->userProfile->id;
+        } 
+        else 
+        {
+            $userType = "App\Models\AdminProfile";
+            $userId = $user->adminProfile->id;
+        }
+        return view('posts.show', ['post' => $post, 'userId' => $userId, 'userType' => $userType]);
     }
 
     /**
@@ -132,5 +145,19 @@ class PostController extends Controller
         $postComments = Comment::with('commentable')->where('post_id', $post->id)->get();
 
         return $postComments;
+    }
+
+    public function apiStore(Request $request, Post $post)
+    {
+        $c = new Comment();
+        $c->body = $request["body"];
+        $c->commentable_id = $request["userId"];
+        $c->commentable_type = $request["userType"];
+        $c->post_id = $post->id;
+        $c->save();
+
+        //$withCommentable = $c->with('commentable')->get();
+
+        return $c;
     }
 }

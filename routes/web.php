@@ -20,11 +20,10 @@ Route::get('/', function () {
     return redirect('/posts');
 });
 
-/*
 Route::get('/dashboard', function () {
     return redirect('/posts');
 })->middleware(['auth'])->name('dashboard');
-*/
+
 
 
 Route::get('/posts', [PostController::class, 'index'])

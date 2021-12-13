@@ -200,11 +200,32 @@ button:hover {
 .postbox__comment p {
     margin-bottom: 0;
 }
-.postbox__comment img {
+.postbox__comment .profile-pic {
     border-radius: 50%;
     width: 40px;
     height: 40px;
     border: 3px solid #272727;
+}
+.comment-creation {
+    margin-top: 2em;
+    padding: 0.5em;
+    position: relative;
+}
+.comment-creation input {
+    width: 100%;
+}
+.comment-creation button {
+    border-radius: 100%;
+    padding: 0;
+}
+.comment-creation button:hover {
+    border-radius: 100%;
+    padding: 0;
+    background-color: #59bfff;
+    color: #fff;
+}
+.comment-creation button img {
+    padding: 1px;
 }
 
 /** NAVBAR **/
