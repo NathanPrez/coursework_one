@@ -88,9 +88,8 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        $post = Post::findOrFail($id);
         return view('posts.show', ['post' => $post]);
     }
 
@@ -128,9 +127,10 @@ class PostController extends Controller
         //
     }
 
-    public function apiIndex()
+    public function apiIndex(Post $post)
     {
-        $comments = Comment::with('commentable')->get();
-        return $comments;
+        $postComments = Comment::with('commentable')->where('post_id', $post->id)->get();
+
+        return $postComments;
     }
 }

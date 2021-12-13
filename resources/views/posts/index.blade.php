@@ -4,7 +4,7 @@
     <!-- Loop through all posts -->
     @foreach($posts as $post)
         <div class="clickable">
-            <div class="postbox {{$post->type}}" onclick="location.href='{{ route('posts.show', ['id'=>$post->id]) }}'">
+            <div class="postbox {{$post->type}}" onclick="location.href='{{ route('posts.show', ['post'=>$post]) }}'">
                 <div class="postbox__header">
                     <img src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
                     <a href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">

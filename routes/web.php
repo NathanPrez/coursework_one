@@ -33,7 +33,7 @@ Route::get('/posts/create', [PostController::class, 'create'])->middleware(['aut
     ->name('posts.create');
 Route::post('/posts', [PostController::class, 'store'])
     ->name('posts.store');
-Route::get('/posts/{id}', [PostController::class, 'show'])
+Route::get('/posts/{post}', [PostController::class, 'show'])
     ->name('posts.show');
 
 

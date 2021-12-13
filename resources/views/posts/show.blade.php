@@ -54,7 +54,7 @@
                 comments: [],
             },
             mounted() {
-                axios.get("{{ route('api.comments.index') }}")
+                axios.get("{{ route('api.comments.index', ['post' => $post]) }}")
                     .then(response=> {
                         this.comments = response.data;
                     })
