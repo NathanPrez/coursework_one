@@ -6,8 +6,9 @@
         <div class="clickable">
             <div class="postbox {{$post->type}}" onclick="location.href='{{ route('posts.show', ['post'=>$post]) }}'">
                 <div class="postbox__header">
+                    @if($post->postable-> "default_profile_pic.jpg")
                     <img src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
-                    <a href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">
+                    <a class="username-link" href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">
                         <!-- Show username if user, otherwise, show 'Admin' + id -->
                         @if($post->postable->user->userProfile == null)
                             Admin {{$post->postable->user->adminProfile->id}}
