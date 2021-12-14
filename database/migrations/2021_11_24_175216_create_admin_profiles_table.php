@@ -16,7 +16,7 @@ class CreateAdminProfilesTable extends Migration
         Schema::create('admin_profiles', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('profilePicturePath')->default('admin_profile_pic.png');
+            $table->string('profilePicturePath')->default('admin_profile_pic.jpg');
             $table->bigInteger('user_id')->unsigned();
 
             $table->foreign('user_id')->references('id')->

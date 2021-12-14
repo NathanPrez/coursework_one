@@ -36,6 +36,8 @@ Route::get('/posts/{post}', [PostController::class, 'show'])
     ->name('posts.show');
 Route::post('/posts/{post}', [PostController::class, 'update'])
     ->name('posts.update');
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])
+    ->name('posts.delete');
 
 Route::get('/users/create', [UserController::class, 'create'])->middleware(['auth']) 
     ->name('users.create');

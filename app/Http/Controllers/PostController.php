@@ -18,9 +18,18 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::all();
+        if($request->creatorFilter == null or $request->creatorFilter == "all")
+        {
+            $posts = Post::all();
+        }
+        else 
+        {
+            $ids = auth()->user()->userProfile->getFollowsId();
+            $posts = Post::whereIn('id', $ids)->get();
+        }
+
         return view('posts.index', ['posts' => $posts]);
     }
 
@@ -113,17 +122,6 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -136,7 +134,7 @@ class PostController extends Controller
             "body" => "required|max:511"
         ]);
 
-        $p = Post::find($post->id);
+        $p = $post;
         $p->body = $validatedData["body"];
 
         /* 
@@ -165,9 +163,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        $post->delete();
+        return redirect()->route('posts.index');
     }
 
 }

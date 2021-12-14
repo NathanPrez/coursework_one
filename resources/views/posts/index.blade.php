@@ -2,13 +2,29 @@
 
 @section('content')
     <!-- Loop through all posts -->
+    <form id="posts-filter" method="get" action="{{ route('posts.index') }}">
+        @auth
+            @if(auth()->user()->userProfile !== null)
+                Creators:
+                <select name="creatorFilter" onchange="document.forms['posts-filter'].submit();">
+                    @if(app('request')->input('creatorFilter') == 'all' or app('request')->input('creatorFilter') == null)
+                        <option value="all" selected="selected">All</option>
+                        <option value="follow">Following</option>
+                    @else
+                        <option value="all">All</option>
+                        <option value="follow" selected="selected">Following</option>
+                    @endif
+                </select>
+            @endif
+        @endauth
+    </form>
+
     @foreach($posts as $post)
         <div class="clickable">
             <div class="postbox {{$post->type}}" onclick="location.href='{{ route('posts.show', ['post'=>$post]) }}'">
                 <div class="postbox__header">
-                    @if($post->postable-> "default_profile_pic.jpg")
-                    <img src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
-                    <a class="username-link" href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">
+                    <img src="{{ asset('storage/user_content/' . $post->postable->profilePicturePath) }}" alt="Profile Picture">
+                    <a href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">
                         <!-- Show username if user, otherwise, show 'Admin' + id -->
                         @if($post->postable->user->userProfile == null)
                             Admin {{$post->postable->user->adminProfile->id}}

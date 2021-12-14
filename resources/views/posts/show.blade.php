@@ -6,16 +6,26 @@
     
     <div class="postbox {{$post->type}}">
         <div class="postbox__header">
-            <img src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
-            <a class="username-link" href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">
-                <!-- Show username if user, otherwise, show 'Admin' + id -->
-                @if($post->postable->user->userProfile == null)
-                    Admin {{$post->postable->user->adminProfile->id}}
-                @else
-                    {{ $post->postable->user->userProfile->username }}
+            <div class="row">
+                <div class="col-sm-9 col-8 my-auto">
+                    <img src="{{ asset('storage/user_content/' . $post->postable->profilePicturePath) }}" alt="Profile Picture">
+
+                    <a href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">
+                        <!-- Show username if user, otherwise, show 'Admin' + id -->
+                        @if($post->postable->user->userProfile == null)
+                            Admin {{$post->postable->user->adminProfile->id}}
+                        @else
+                            {{ $post->postable->user->userProfile->username }}
+                        @endif
+                    </a>
+                </div>
+                @if ($userId == $post->postable->id or $userType == "AdminProfile")
+                    <div class="col-sm-3 col-4 my-auto centre edit-buttons">
+                        <a onclick="show('post-change');hide('post-content');">Edit</a>
+                        <a data-toggle="modal" data-target="#deletePostModal">Delete</a>
+                    </div>
                 @endif
-            </a>
-            <a class="edit-post" onclick="show('post-change');hide('post-content');">Edit</a>
+            </div>
         </div>
         <div id="post-content" class="postbox__content">
             <p>{{$post->body}}</p>
@@ -125,6 +135,30 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="deletePostModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <form id="delete-form" method="post" action="{{ route('posts.delete', ['post' => $post]) }}">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Post</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        @csrf
+                        @method('DELETE')
+                        <p>Are you sure you would like to delete this post? This cannot be reversed.</p>
+                    </div>  
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 

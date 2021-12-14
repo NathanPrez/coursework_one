@@ -167,17 +167,17 @@ button:hover {
     margin-bottom: 0.2em;
     border: 3px solid #fff;
 }
-.postbox__header .username-link {
+.postbox__header a {
     color: #fff !important;
+    cursor: pointer;
 }
-.postbox__header .username-link:hover {
+.postbox__header a:hover {
     color: #26abff !important;
 }
-.postbox__header .edit-post {
-    position: absolute;
-    right: 2%;
-    top: 30%;
-    cursor: pointer;
+.edit-buttons a {
+    display: inline-block;
+    margin-left: 0.2em;
+    margin-right: 0.2em;
 }
 .postbox__content {
     padding: 1em;
@@ -238,29 +238,31 @@ button:hover {
     padding: 1px;
 }
 
+.modal {
+    color: #272727;
+}
 .modal-body textarea {
     width: 100%;
 }
+
+/** Home **/
+#posts-filter {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
 /** NAVBAR **/
 .nav-link {
     margin-left: 1em;
     margin-right: 1em;
     cursor: pointer;
 }
-/*
-.navbar-brand img:last-child {
-    display: none;
-}
-.navbar-brand:hover img:last-child {
-    display: block;
-}
-.navbar-brand:hover img:first-child {
-    display: none;
-}
-*/
+
 
 /** POST **/
-#post-form, #user-form {
+#post-form, #user-form, #posts-filter {
     margin-top: 2em;
     margin-top: 2em;
 }
