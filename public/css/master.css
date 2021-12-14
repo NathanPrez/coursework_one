@@ -155,6 +155,7 @@ button:hover {
     border: none;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    position: relative;
 }
 .postbox__header img {
     border-radius: 50%;
@@ -166,13 +167,18 @@ button:hover {
     margin-bottom: 0.2em;
     border: 3px solid #fff;
 }
-.postbox__header a {
+.postbox__header .username-link {
     color: #fff !important;
 }
-.postbox__header a:hover {
-    color: #272727 !important;
+.postbox__header .username-link:hover {
+    color: #26abff !important;
 }
-
+.postbox__header .edit-post {
+    position: absolute;
+    right: 2%;
+    top: 30%;
+    cursor: pointer;
+}
 .postbox__content {
     padding: 1em;
 }
@@ -195,7 +201,7 @@ button:hover {
     padding-bottom: 0.25em;
     border: 1px solid #666;
     border-radius: 5px;
-    margin-bottom: 0.5em;
+    margin-bottom: 1em;
 }
 .postbox__comment p {
     margin-bottom: 0;
@@ -206,8 +212,12 @@ button:hover {
     height: 40px;
     border: 3px solid #272727;
 }
+.comment-change a {
+    display: inline-block;
+    padding-left: 0.2em;
+    padding-right: 0.2em;
+}
 .comment-creation {
-    margin-top: 2em;
     padding: 0.5em;
     position: relative;
 }
@@ -228,6 +238,9 @@ button:hover {
     padding: 1px;
 }
 
+.modal-body textarea {
+    width: 100%;
+}
 /** NAVBAR **/
 .nav-link {
     margin-left: 1em;

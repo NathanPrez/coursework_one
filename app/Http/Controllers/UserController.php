@@ -100,8 +100,7 @@ class UserController extends Controller
     public function follow(User $user)
     {
         $viewingUser = auth()->user()->userProfile;
-        
-        $viewingUser->follows()->attach($user->id);
+        $viewingUser->follows()->attach($user->userProfile->id);
 
         return redirect()->route("users.show", ['user' => $user]);
     }
@@ -110,8 +109,7 @@ class UserController extends Controller
     public function unfollow(User $user)
     {
         $viewingUser = auth()->user()->userProfile;
-
-        $viewingUser->follows()->detach($user->id);
+        $viewingUser->follows()->detach($user->userProfile->id);
 
         return redirect()->route("users.show", ['user' => $user]);
     } 

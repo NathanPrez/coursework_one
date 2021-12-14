@@ -14,25 +14,8 @@
 
         <title>SK8</title>
 
-        
-        <script>
-            /* JS hides or shows specific elements */
-            function hide(name) {
-                document.getElementById(name).classList.add("hide");
-            }
-
-            function show(name) {
-                var elem = document.getElementById(name).classList;
-                if (elem.contains("hide")) {
-                    document.getElementById(name).classList.remove("hide");
-                }
-            }
-
-            /* Logs out user */
-            function submit() {
-                document.getElementById('logout-form').submit();
-            }
-        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="{{ URL::asset('js/master.js') }}"></script>
 
         <!-- Page specific JS -->
         @yield('js')

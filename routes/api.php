@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('comments/{post}', [PostController::class, 'apiIndex'])
+Route::get('comments/{post}', [CommentController::class, 'apiIndex'])
     ->name('api.comments.index');
 
-Route::post('comments/{post}', [PostController::class, 'apiStore'])
+Route::post('comments/{post}', [CommentController::class, 'apiStore'])
     ->name('api.comments.store');

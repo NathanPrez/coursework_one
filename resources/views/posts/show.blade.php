@@ -7,7 +7,7 @@
     <div class="postbox {{$post->type}}">
         <div class="postbox__header">
             <img src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
-            <a href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">
+            <a class="username-link" href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">
                 <!-- Show username if user, otherwise, show 'Admin' + id -->
                 @if($post->postable->user->userProfile == null)
                     Admin {{$post->postable->user->adminProfile->id}}
@@ -15,8 +15,9 @@
                     {{ $post->postable->user->userProfile->username }}
                 @endif
             </a>
+            <a class="edit-post" onclick="show('post-change');hide('post-content');">Edit</a>
         </div>
-        <div class="postbox__content">
+        <div id="post-content" class="postbox__content">
             <p>{{$post->body}}</p>
             @if($post->type == "shot")
                 <!-- Change html tag depending if it's video of img in database -->
@@ -28,6 +29,35 @@
                     <img id="post-photo" src="{{ asset('storage/user_content/' . $post->imagePath) }}">
                 @endif
             @endif
+        </div>
+
+        <div id="post-change" class="postbox__content hide">
+            <form method="post" action="{{ route('posts.update', ['post' => $post]) }}" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-lg-2 col-sm-4">Content:</div>
+                    <div class="col-sm-8 content-div">        
+                        <textarea name="body">{{$post->body}}</textarea>
+                    </div>
+                </div>
+
+                @if($post->type == "shot")
+                    <div id="image-upload" class="row">
+                        <div class="col-lg-2 col-sm-4">Video / Image:</div>
+                        <div class="col-sm-8 content-div">        
+                            <input type="file" name="file">
+                        </div>
+                    </div>
+                @endif
+                
+                <div class="row">
+                    <div class="col-lg-2 col-sm-4"></div>
+                    <div class="col-sm-8 content-div">        
+                        <input type="submit">
+                        <input value="Cancel" type="button" onclick="hide('post-change');show('post-content');">
+                    </div>
+                </div>
+            </form>
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js" 
@@ -43,17 +73,35 @@
             </div>
             <div id="comments">
                 <div class="postbox__comment" v-for="comment in comments">
-                    <img class="profile-pic" src="../imgs/default_profile_pic.jpg" alt="Profile Picture">
-                    <a disabled>@{{ comment.commentable.username }}</a>
-                    <p>@{{ comment.body }}</p>
+                    <!-- Check for type of user, to display username or admin id -->
+                    <a v-if="comment.commentable.hasOwnProperty('username')" disabled>@{{ comment.commentable.username }}</a>
+                    <a v-else disabled>Admin @{{ comment.commentable.id}}</a>
+
+                    <!-- Check if comment owner is the user, to enabled updating -->
+                    <div v-if="comment.commentable.id == newCommentId || newCommentUserType == 'AdminProfile'" class="row">
+                        <div class="col-lg-10 my-auto">
+                            <p>@{{ comment.body }}</p>
+                            <input v-model="comment.body" type="text">
+                        </div>
+                        <div class="comment-change col-lg-2 mx-auto centre">
+                            <a onclick="openModal('#commentUpdateModal')">Edit</a>
+                            <a href="">Delete</a>
+                        </div>
+                    </div>
+                    <!-- If not owner, just display message -->
+                    <div v-else>
+                        <p>@{{ comment.body }}</p>
+                    </div>
                 </div>
+
+                <!-- Only those logged in can make a comment -->
                 @auth
                     <div class="postbox__comment comment-creation">
                         <div class="row">
-                            <div class="col-md-11 my-auto">
+                            <div class="col-lg-11 col-sm-10 col-9 my-auto">
                                 <input placeholder="Write a comment" type="text" id="body" v-model="newCommentBody">
                             </div>
-                            <div class="col-md-1 mx-auto">
+                            <div class="col-lg-1 col-sm-2 col-3 mx-auto">
                                 <button @click="createComment"><img src="../imgs/upload.png" width="30"></button>
                             </div>
                         </div>
@@ -62,6 +110,24 @@
             </div>
         </div>
     </div>
+
+    <div id="commentUpdateModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <form action="">
+                        @csrf
+                        <textarea id="body-update" name="body-update" rows="3"></textarea>
+                    </form>
+                </div>  
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         var app = new Vue ({
             el: "#comments",
@@ -106,5 +172,3 @@
         });
     </script>
 @endsection
-
-

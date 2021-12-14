@@ -79,6 +79,7 @@ class PostController extends Controller
         }
 
         $p->save();
+
         return redirect()->route('posts.index');
     }
 
@@ -91,7 +92,7 @@ class PostController extends Controller
     public function show(Post $post)
     {
         $user = auth()->user();
-
+        //Pass logged in user details for ajax comments
         if($user !== null) 
         {
             if ($user->UserProfile !== null) 
@@ -129,9 +130,33 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        //
+        $validatedData = $request->validate([
+            "body" => "required|max:511"
+        ]);
+
+        $p = Post::find($post->id);
+        $p->body = $validatedData["body"];
+
+        /* 
+            If they have uploaded a file 
+            and if they chose the 'shot' from dropwdown - extra security
+        */
+        if ($request->hasFile('file') and $p->type == "shot") 
+        {
+            $request->validate([
+                "image" => "mimes:jpeg,png,mp4,mov",
+            ]);
+
+            $request->file->store('user_content', 'public');
+
+            $p->imagePath = $request->file->hashName();
+        }
+
+        $p->save();
+
+        return redirect()->route('posts.show', ["post" => $post]);
     }
 
     /**
@@ -145,33 +170,4 @@ class PostController extends Controller
         //
     }
 
-    public function apiIndex(Post $post)
-    {
-        $postComments = Comment::with('commentable')->where('post_id', $post->id)->get();
-
-        return $postComments;
-    }
-
-    public function apiStore(Request $request, Post $post)
-    {
-        $c = new Comment();
-        $c->body = $request["body"];
-        
-        if ($request["userType"] == "UserProfile")
-        {
-            $c->commentable_type = "App\Models\UserProfile";
-        }
-        else 
-        {
-            $c->commentable_type = "App\Models\AdminProfile";
-        }
-
-        $c->commentable_id = $request["userId"];
-        $c->post_id = $post->id;
-        $c->save();
-
-        $postComments = Comment::with('commentable')->where('post_id', $post->id)->get();
-
-        return $postComments;
-    }
 }

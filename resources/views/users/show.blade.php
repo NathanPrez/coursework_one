@@ -12,7 +12,6 @@
                 <!-- Checking if admin/user and if they have a custom profile picture -->
                 @if($user->userProfile == null)
                     <img src="../imgs/admin_profile_pic.jpg" alt="Admin Profile Picture">
-                    <h2>Admin {{$user->adminProfile->id}}</h2>
                 @else
                     @if($user->userProfile->profilePicturePath == "default_profile_pic.jpg")
                         <img src="../imgs/default_profile_pic.jpg" alt="User Profile Picture">
@@ -58,7 +57,7 @@
                             <button class="disabled" disabled>Follow</button>
                         @else
                             <!-- If they aren't following then offer to follow -->
-                            <form id="follow-form" method="get" action="{{ route('users.follow', ['user' => $user]) }}" enctype="multipart/form-data">
+                            <form id="follow-form" method="post" action="{{ route('users.follow', ['user' => $user]) }}" enctype="multipart/form-data">
                                 @csrf
                                 <button type="submit">Follow</button>
                             </form>
