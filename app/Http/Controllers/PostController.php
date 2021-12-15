@@ -29,7 +29,6 @@ class PostController extends Controller
             $ids = auth()->user()->userProfile->getFollowsId();
             $posts = Post::whereIn('id', $ids)->get();
         }
-
         return view('posts.index', ['posts' => $posts]);
     }
 

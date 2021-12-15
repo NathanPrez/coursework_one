@@ -60,6 +60,10 @@ button:hover {
     top: 0;
     left: 0;
 }
+.main-content {
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
 .content {
     position: relative;
 }
@@ -67,7 +71,6 @@ button:hover {
     position: relative;
     display: block;
     left: 10%;
-    margin-top: 2em;
 }
 
 .title-with-icon {
@@ -262,10 +265,6 @@ button:hover {
 
 
 /** POST **/
-#post-form, #user-form, #posts-filter {
-    margin-top: 2em;
-    margin-top: 2em;
-}
 .content-div {
     margin-bottom: 1em;
 }

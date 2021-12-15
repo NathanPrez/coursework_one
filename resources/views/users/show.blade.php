@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+    <button onclick="location.href='{{ route('posts.index') }}'">Back</button>
+
     <div class="userbox">
         <div class="row">
             <!-- Profile Picture --> 
@@ -53,8 +55,8 @@
                                 <button type="submit">Unfollow</button>
                             </form>
                         @elseif($viewingUser->id == $user->userProfile->id)
-                            <!-- Disabled button if it's their own profile -->
-                            <button class="disabled" disabled>Follow</button>
+                        
+                            
                         @else
                             <!-- If they aren't following then offer to follow -->
                             <form id="follow-form" method="post" action="{{ route('users.follow', ['user' => $user]) }}" enctype="multipart/form-data">
@@ -66,10 +68,6 @@
                 </div>
             @endauth
         </div>
-        
-
-
-        
     </div>
 @endsection
 
