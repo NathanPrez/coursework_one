@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +53,7 @@ Route::post('/users/{user}/follow', [UserController::class, 'follow'])
 Route::delete('/users/{user}/unfollow', [UserController::class, 'unfollow'])
     ->name('users.unfollow');
 
-Route::post("/comments/{comment}", [UserController::class, 'update'])
+Route::post("/commentUpdate/{post}", [CommentController::class, 'update'])
     ->name('comments.update');
 
 Route::get('/users/logout', function () {

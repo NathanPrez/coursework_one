@@ -88,13 +88,21 @@
                     <a v-else disabled>Admin @{{ comment.commentable.id}}</a>
 
                     <!-- Check if comment owner is the user, to enabled updating -->
-                    <div v-if="comment.commentable.id == newCommentId || newCommentUserType == 'AdminProfile'" class="row">
-                        <div class="col-lg-10 my-auto">
+                    <div v-if="comment.commentable.id == {{$userId}} || {{$userType}} == 'AdminProfile'" class="row">
+                        <div class="col-md-9 my-auto">
                             <p>@{{ comment.body }}</p>
-                            <input v-model="comment.body" type="text">
+
+                            <form class="hide" method="post" action="{{ route('comments.update', ['post' => $post]) }}" enctype="multipart/form-data">
+                                @csrf
+                                <input name="body" v-bind:value="comment.body" type="text">
+                                <input name="commentId" class="hide" v-bind:value="comment.id" type="text">
+                                <input type="submit">
+                                <input onclick="closeEdit(this)" value="Cancel" type="button">
+                            </form>
+
                         </div>
-                        <div class="comment-change col-lg-2 mx-auto centre">
-                            <a onclick="openModal('#commentUpdateModal')">Edit</a>
+                        <div class="comment-change col-md-3 mx-auto centre">
+                            <a onclick="openEdit(this)">Edit</a>
                             <a href="">Delete</a>
                         </div>
                     </div>
@@ -117,23 +125,6 @@
                         </div>
                     </div>
                 @endauth
-            </div>
-        </div>
-    </div>
-
-    <div id="commentUpdateModal" class="modal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <form action="">
-                        @csrf
-                        <textarea id="body-update" name="body-update" rows="3"></textarea>
-                    </form>
-                </div>  
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Update</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
             </div>
         </div>
     </div>
@@ -169,8 +160,7 @@
                 comments: [],
                 @auth
                     newCommentBody: '',
-                    newCommentId: {{$userId}},
-                    newCommentUserType: '{{$userType}}',
+                    editCommentBody:'',
                 @endauth
             },
             @auth
@@ -179,8 +169,8 @@
                         axios.post("{{ route('api.comments.store', ['post'=>$post]) }}",
                         {   
                             body:this.newCommentBody,
-                            userId:this.newCommentId,
-                            userType:this.newCommentUserType,
+                            userId:{{$userId}},
+                            userType:'{{$userType}}',
                         })
                         .then(response=>{
                             this.comments = response.data;

@@ -29,17 +29,17 @@ class PostController extends Controller
 
         if($request->typeFilter == "shot")
         {
-            $typePosts = Post::where('type', 'LIKE', 'shot')->get();
+            $typePosts = Post::where('type', 'shot')->get();
             $posts = $posts->intersect($typePosts);
         }
         elseif($request->typeFilter == "chat")
         {
-            $typePosts = Post::where('type', 'LIKE', 'chat')->get();
+            $typePosts = Post::where('type', 'chat')->get();
             $posts = $posts->intersect($typePosts);
         }
         elseif($request->typeFilter == "meet")
         {
-            $typePosts = Post::where('type', 'LIKE', 'meet')->get();
+            $typePosts = Post::where('type', 'meet')->get();
             $posts = $posts->intersect($typePosts);
         }
 
@@ -147,8 +147,7 @@ class PostController extends Controller
             "body" => "required|max:511"
         ]);
 
-        $p = $post;
-        $p->body = $validatedData["body"];
+        $post->body = $validatedData["body"];
 
         /* 
             If they have uploaded a file 
@@ -166,7 +165,7 @@ class PostController extends Controller
         }
 
         $p->save();
-
+        
         return redirect()->route('posts.show', ["post" => $post]);
     }
 

@@ -11,6 +11,7 @@ body {
 a {
     color: #26abff !important;
     transition: 0.4s;
+    cursor: pointer;
 }
 a:hover {
     color: #59bfff !important;
@@ -279,16 +280,21 @@ button:hover {
     display: inline-block;
 }
 
-@media (max-width: 768px) {
+
+@media (max-width: 992px) {
     .back {
         left: 0%;
     }
     .postbox {
         width: 100%;
     }
+}
 
+
+@media (max-width: 768px) {
     .navbar-collapse .nav-link {
         padding-left: 0;
         padding-right: 0;
     }
 }
+

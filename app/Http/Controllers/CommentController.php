@@ -49,8 +49,17 @@ class CommentController extends Controller
             return $postComments;
         }
 
-        public function update(Request $request, $id)
+        public function update(Request $request, Post $post)
         {
-            //
+            $validatedData = $request->validate([
+                "body" => "required|max:200",
+                "commentId" => "required|integer",
+            ]);
+    
+            $c = Comment::find($validatedData['commentId']);
+            $c->body = $validatedData["body"];
+            $c->save();
+    
+            return redirect()->route('posts.show', ["post" => $post]);
         }
 }
