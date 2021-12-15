@@ -3,20 +3,53 @@
 @section('content')
     <!-- Loop through all posts -->
     <form id="posts-filter" method="get" action="{{ route('posts.index') }}">
-        @auth
-            @if(auth()->user()->userProfile !== null)
-                Creators:
-                <select name="creatorFilter" onchange="document.forms['posts-filter'].submit();">
-                    @if(app('request')->input('creatorFilter') == 'all' or app('request')->input('creatorFilter') == null)
+        <div class="row">
+            <div class="col-md-6 centre">
+                Post Type:
+                <select name="typeFilter" onchange="document.forms['posts-filter'].submit();">
+                    @if(app('request')->input('typeFilter') == 'all' or app('request')->input('typeFilter') == null)
                         <option value="all" selected="selected">All</option>
-                        <option value="follow">Following</option>
-                    @else
+                        <option value="shot">Shots</option>
+                        <option value="meet">Meets</option>
+                        <option value="chat">Chats</option>
+                    @elseif(app('request')->input('typeFilter') == 'shot')
                         <option value="all">All</option>
-                        <option value="follow" selected="selected">Following</option>
+                        <option value="shot" selected="selected">Shots</option>
+                        <option value="meet">Meets</option>
+                        <option value="chat">Chats</option>
+                    @elseif(app('request')->input('typeFilter') == 'meet')
+                        <option value="all">All</option>
+                        <option value="shot">Shots</option>
+                        <option value="meet" selected="selected">Meets</option>
+                        <option value="chat">Chats</option>
+                    @elseif(app('request')->input('typeFilter') == 'chat')
+                        <option value="all">All</option>
+                        <option value="shot">Shots</option>
+                        <option value="meet">Meets</option>
+                        <option value="chat" selected="selected">Chats</option>
                     @endif
                 </select>
-            @endif
-        @endauth
+            </div>
+            @auth
+                <div class="col-md-6 centre">
+                    @if(auth()->user()->userProfile !== null)
+                        Creators:
+                        <select name="creatorFilter" onchange="document.forms['posts-filter'].submit();">
+                            @if(app('request')->input('creatorFilter') == 'all' or app('request')->input('creatorFilter') == null)
+                                <option value="all" selected="selected">All</option>
+                                <option value="follow">Following</option>
+                            @else
+                                <option value="all">All</option>
+                                <option value="follow" selected="selected">Following</option>
+                            @endif
+                        </select>
+                    @endif
+                </div>
+            @endauth
+
+        </div>
+
+
     </form>
 
     @foreach($posts as $post)

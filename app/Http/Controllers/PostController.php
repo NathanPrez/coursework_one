@@ -20,15 +20,29 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        if($request->creatorFilter == null or $request->creatorFilter == "all")
-        {
-            $posts = Post::all();
-        }
-        else 
+        $posts = Post::all();
+        if($request->creatorFilter == "follow") 
         {
             $ids = auth()->user()->userProfile->getFollowsId();
             $posts = Post::whereIn('id', $ids)->get();
         }
+
+        if($request->typeFilter == "shot")
+        {
+            $typePosts = Post::where('type', 'LIKE', 'shot')->get();
+            $posts = $posts->intersect($typePosts);
+        }
+        elseif($request->typeFilter == "chat")
+        {
+            $typePosts = Post::where('type', 'LIKE', 'chat')->get();
+            $posts = $posts->intersect($typePosts);
+        }
+        elseif($request->typeFilter == "meet")
+        {
+            $typePosts = Post::where('type', 'LIKE', 'meet')->get();
+            $posts = $posts->intersect($typePosts);
+        }
+
         return view('posts.index', ['posts' => $posts]);
     }
 
