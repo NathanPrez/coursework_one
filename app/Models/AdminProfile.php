@@ -23,4 +23,9 @@ class AdminProfile extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+    public function notifications() 
+    {
+        return $this->morphMany(Notification::class, 'notable');
+    }
 }

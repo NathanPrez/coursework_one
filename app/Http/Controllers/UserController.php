@@ -9,9 +9,6 @@ use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\AdminProfile;
 use App\Models\Post;
-use Illuminate\Support\Facades\Mail;
-
-
 
 class UserController extends Controller
 {
@@ -52,7 +49,7 @@ class UserController extends Controller
     public function store(Request $request)
     {        
         /* Creating and adding data to model */
-        if ($validatedData["type"] == "user")
+        if ($request->type == "user")
         {
             //If a user, then must have a unique username
             $validatedData = $request->validate([
@@ -122,4 +119,8 @@ class UserController extends Controller
 
         return redirect()->route("users.show", ['user' => $user]);
     } 
+
+    public function notifications(User $user) {
+
+    }
 }
