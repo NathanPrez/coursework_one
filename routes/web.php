@@ -53,8 +53,10 @@ Route::post('/users/{user}/follow', [UserController::class, 'follow'])
 Route::delete('/users/{user}/unfollow', [UserController::class, 'unfollow'])
     ->name('users.unfollow');
 
-Route::post("/commentUpdate/{post}", [CommentController::class, 'update'])
+Route::post("/comment/{post}", [CommentController::class, 'update'])
     ->name('comments.update');
+Route::delete("/comment/{post}", [CommentController::class, 'destroy'])
+    ->name('comments.delete');
 
 Route::get('/users/logout', function () {
     return redirect('/posts');

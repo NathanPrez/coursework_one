@@ -95,15 +95,21 @@
                             <form class="hide" method="post" action="{{ route('comments.update', ['post' => $post]) }}" enctype="multipart/form-data">
                                 @csrf
                                 <input name="body" v-bind:value="comment.body" type="text">
-                                <input name="commentId" class="hide" v-bind:value="comment.id" type="text">
+                                <input name="commentId" class="" v-bind:value="comment.id" type="text">
                                 <input type="submit">
                                 <input onclick="closeEdit(this)" value="Cancel" type="button">
                             </form>
-
                         </div>
                         <div class="comment-change col-md-3 mx-auto centre">
                             <a onclick="openEdit(this)">Edit</a>
-                            <a href="">Delete</a>
+
+                            <form style="display: inline-block" method="post" action="{{ route('comments.delete', ['post' => $post]) }}">
+                                @csrf
+                                @method('DELETE')
+                                <input name="commentId" class="hide" v-bind:value="comment.id" type="text">
+                                <a onclick="this.parentNode.submit();">Delete</a>
+                            </form>
+   
                         </div>
                     </div>
                     <!-- If not owner, just display message -->
@@ -134,7 +140,7 @@
             <form id="delete-form" method="post" action="{{ route('posts.delete', ['post' => $post]) }}">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Delete Post</h5>
+                        <h5 class="modal-title">Post Delete</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                         </button>
@@ -142,7 +148,7 @@
                     <div class="modal-body">
                         @csrf
                         @method('DELETE')
-                        <p>Are you sure you would like to delete this post? This cannot be reversed.</p>
+                        <p>Are you sure you would like to delete? This cannot be reversed.</p>
                     </div>  
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Delete</button>
