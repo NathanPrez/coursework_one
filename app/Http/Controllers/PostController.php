@@ -20,7 +20,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::all();
+        $posts = Post::simplePaginate(10);
         if($request->creatorFilter == "follow") 
         {
             $ids = auth()->user()->userProfile->getFollowsId();
