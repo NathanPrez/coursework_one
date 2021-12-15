@@ -67,6 +67,18 @@
             <div class="background-image"></div>
             <div class="content">
                 <div class="container main-content">
+
+                    @if ($errors->any()) 
+                        <div class="error">
+                            Error: 
+                            <ul>
+                                @foreach($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                      @yield('content')
                 </div>
             </div>

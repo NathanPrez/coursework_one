@@ -4,6 +4,7 @@
     <!-- Post Creation -->
     <form id="post-form" method="post" action="{{route('posts.store')}}" enctype="multipart/form-data">
         @csrf
+
         <div class="row space-bottom">
             <div class="col-lg-2 col-sm-4 mx-auto">Post Type:</div>
             <div class="col-sm-8 content-div">

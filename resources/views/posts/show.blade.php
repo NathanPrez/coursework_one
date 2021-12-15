@@ -19,12 +19,14 @@
                         @endif
                     </a>
                 </div>
-                @if ($userId == $post->postable->id or $userType == "AdminProfile")
-                    <div class="col-sm-3 col-4 my-auto centre edit-buttons">
-                        <a onclick="show('post-change');hide('post-content');">Edit</a>
-                        <a data-toggle="modal" data-target="#deletePostModal">Delete</a>
-                    </div>
-                @endif
+                @auth
+                    @if ($userId == $post->postable->id or $userType == "AdminProfile")
+                        <div class="col-sm-3 col-4 my-auto centre edit-buttons">
+                            <a onclick="show('post-change');hide('post-content');">Edit</a>
+                            <a data-toggle="modal" data-target="#deletePostModal">Delete</a>
+                        </div>
+                    @endif
+                @endauth
             </div>
         </div>
         <div id="post-content" class="postbox__content">
@@ -86,36 +88,44 @@
                     <!-- Check for type of user, to display username or admin id -->
                     <a v-if="comment.commentable.hasOwnProperty('username')" disabled>@{{ comment.commentable.username }}</a>
                     <a v-else disabled>Admin @{{ comment.commentable.id}}</a>
+                
+                    @auth
+                        <!-- Check if comment owner is the user, to enabled updating -->
+                        <div v-if="comment.commentable.id == {{$userId}} || {{$userType}} == 'AdminProfile'" class="row">
+                            <div class="col-md-9 my-auto">
+                                <p>@{{ comment.body }}</p>
 
-                    <!-- Check if comment owner is the user, to enabled updating -->
-                    <div v-if="comment.commentable.id == {{$userId}} || {{$userType}} == 'AdminProfile'" class="row">
-                        <div class="col-md-9 my-auto">
+                                <form class="hide" method="post" action="{{ route('comments.update', ['post' => $post]) }}" enctype="multipart/form-data">
+                                    @csrf
+                                    <input name="body" v-bind:value="comment.body" type="text">
+                                    <input name="commentId" class="hide" v-bind:value="comment.id" type="text">
+                                    <input type="submit">
+                                    <input onclick="closeEdit(this)" value="Cancel" type="button">
+                                </form>
+                            </div>
+                            <div class="comment-change col-md-3 mx-auto centre">
+                                <a onclick="openEdit(this)">Edit</a>
+
+                                <form style="display: inline-block" method="post" action="{{ route('comments.delete', ['post' => $post]) }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input name="commentId" class="hide" v-bind:value="comment.id" type="text">
+                                    <a onclick="this.parentNode.submit();">Delete</a>
+                                </form>
+    
+                            </div>
+                        </div>
+                        <!-- If not owner, just display message -->
+                        <div v-else>
                             <p>@{{ comment.body }}</p>
-
-                            <form class="hide" method="post" action="{{ route('comments.update', ['post' => $post]) }}" enctype="multipart/form-data">
-                                @csrf
-                                <input name="body" v-bind:value="comment.body" type="text">
-                                <input name="commentId" class="" v-bind:value="comment.id" type="text">
-                                <input type="submit">
-                                <input onclick="closeEdit(this)" value="Cancel" type="button">
-                            </form>
                         </div>
-                        <div class="comment-change col-md-3 mx-auto centre">
-                            <a onclick="openEdit(this)">Edit</a>
-
-                            <form style="display: inline-block" method="post" action="{{ route('comments.delete', ['post' => $post]) }}">
-                                @csrf
-                                @method('DELETE')
-                                <input name="commentId" class="hide" v-bind:value="comment.id" type="text">
-                                <a onclick="this.parentNode.submit();">Delete</a>
-                            </form>
-   
+                    @else
+                        <!-- If not owner, just display message -->
+                        <div>
+                            <p>@{{ comment.body }}</p>
                         </div>
-                    </div>
-                    <!-- If not owner, just display message -->
-                    <div v-else>
-                        <p>@{{ comment.body }}</p>
-                    </div>
+                    @endauth
+
                 </div>
 
                 <!-- Only those logged in can make a comment -->

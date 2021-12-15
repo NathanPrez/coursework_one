@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\AdminProfile;
 use App\Models\Post;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -44,39 +45,32 @@ class UserController extends Controller
 
     public function create()
     {
-        /*
-        $user = auth()->user();
-        if ($user->userProfile == null and $user->adminProfile == null) 
-        {
-            return view('users.create');
-        } 
-        else 
-        {
-            return redirect()->route('posts.index');
-        }
-        */
         return view('users.create');
     }
 
 
     public function store(Request $request)
-    {
-        /* Username must be unique */
-        $validatedData = $request->validate([
-            "type" => "required|max:5",
-            "username" => "unique:user_profiles|max:20",
-            "bio" => "max:100",
-        ]);
-        
+    {        
         /* Creating and adding data to model */
         if ($validatedData["type"] == "user")
         {
+            //If a user, then must have a unique username
+            $validatedData = $request->validate([
+                "type" => "required|max:5",
+                "username" => "required|unique:user_profiles|max:20|min:1",
+                "bio" => "max:100",
+            ]);
+
             $u = new UserProfile;
             $u->username = $validatedData["username"];
             $u->bio = $validatedData["bio"];
         }
         else 
         {
+            $validatedData = $request->validate([
+                "type" => "required|max:5",
+            ]);
+
             $u = new AdminProfile;
         }
 

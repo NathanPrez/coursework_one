@@ -40,7 +40,10 @@ button:hover {
     cursor: pointer;
 }
 
-
+.error {
+    color: #B80F0A;
+    margin-bottom: 2em;
+}
 .hide {
     display: none !important;
 }
@@ -215,6 +218,10 @@ button:hover {
     width: 40px;
     height: 40px;
     border: 3px solid #272727;
+}
+.postbox__comment input[type="text"] {
+    width: 100%;
+    margin-bottom: 0.5em;
 }
 .comment-change a {
     display: inline-block;
