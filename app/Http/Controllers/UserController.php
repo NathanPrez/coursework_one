@@ -8,12 +8,15 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\AdminProfile;
+use App\Models\Post;
+
 
 
 class UserController extends Controller
 {
     public function show(User $user)
     {
+
         /* Check if the user is logged in */
         if (auth()->user() == null or auth()->user()->userProfile == null)
         {
@@ -23,7 +26,19 @@ class UserController extends Controller
         {
             $viewingUser = auth()->user()->userProfile;
         }
-        return view('users.show', ['user' => $user], ['viewingUser' => $viewingUser]);
+
+        if($user->userProfile == null)
+        {
+            $match = ['postable_id' => $user->adminProfile->id, 'postable_type' => 'App\Models\AdminProfile'];
+            $posts = Post::where($match)->get();
+        }
+        else
+        {
+            $match = ['postable_id' => $user->userProfile->id, 'postable_type' => 'App\Models\UserProfile'];
+            $posts = Post::where($match)->get();
+        }
+
+        return view('users.show', ['user' => $user, 'viewingUser' => $viewingUser, 'posts' => $posts]);
     }
 
 
