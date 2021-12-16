@@ -10,7 +10,7 @@
             <div class="col-lg-2 col-sm-4 mx-auto">Post Type:</div>
             <div class="col-sm-8 content-div">
                 <!-- checkType will hide/show certain input fields -->           
-                <select name="type" onchange="checkType()">
+                <select name="type" onchange="checkPostType()">
                     <!-- If failed submission, get old value --> 
                     @if(old('type') == 'chat')
                         <option value="shot">Shot</option>

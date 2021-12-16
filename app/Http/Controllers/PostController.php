@@ -165,10 +165,10 @@ class PostController extends Controller
 
             $request->file->store('user_content', 'public');
 
-            $p->imagePath = $request->file->hashName();
+            $post->imagePath = $request->file->hashName();
         }
 
-        $p->save();
+        $post->save();
         
         return redirect()->route('posts.show', ["post" => $post]);
     }

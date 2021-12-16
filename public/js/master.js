@@ -22,7 +22,7 @@ Called whenever the select is changed
 Checks if post is of type 'Shot'
 if so display file upload, otherwise hide
 */
-function checkType(){
+function checkPostType(){
     if(document.forms["post-form"]["type"].value == "shot") {
         show("image-upload");
         document.forms["post-form"]["file"].setAttribute("required", "");
