@@ -17,14 +17,12 @@ use App\Http\Controllers\CommentController;
 */
 
 Route::get('/', function () {
-    //return view('welcome');
     return redirect('/posts');
 });
 
 Route::get('/dashboard', function () {
     return redirect('/posts');
 })->middleware(['auth'])->name('dashboard');
-
 
 
 Route::get('/posts', [PostController::class, 'index'])
@@ -65,5 +63,7 @@ Route::delete("/comment/{post}", [CommentController::class, 'destroy'])
 Route::get('/users/logout', function () {
     return redirect('/posts');
 });
+
+Route::get('/postToInstagram/{text}', [PostController::class, 'postToInstagram']);
 
 require __DIR__.'/auth.php';

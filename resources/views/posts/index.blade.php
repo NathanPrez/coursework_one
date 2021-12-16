@@ -7,6 +7,7 @@
             <div class="col-md-6 centre">
                 Post Type:
                 <select name="typeFilter" onchange="document.forms['posts-filter'].submit();">
+                    <!-- Get selected filters -->
                     @if(app('request')->input('typeFilter') == 'all' or app('request')->input('typeFilter') == null)
                         <option value="all" selected="selected">All</option>
                         <option value="shot">Shots</option>

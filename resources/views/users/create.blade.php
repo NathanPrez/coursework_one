@@ -9,8 +9,13 @@
             <div class="col-sm-8 content-div">     
                 <!-- checkType will hide/show certain input fields -->   
                 <select name="type" onchange="checkType()">
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                    @if(old('type') == 'user')
+                        <option value="user" selected>User</option>
+                        <option value="admin">Admin</option>
+                    @else
+                        <option value="user">User</option>
+                        <option value="admin" selected>Admin</option>
+                    @endif
                 </select>
             </div>
         </div>
@@ -18,7 +23,7 @@
         <div id="username-input" class="row space-bottom">
             <div class="col-lg-2 col-sm-4 mx-auto">Username:</div>
             <div class="col-sm-8 content-div">        
-                <input type="text" name="username" value="{{old('age')}}" required>
+                <input type="text" name="username" value="{{old('username')}}" required>
             </div>
         </div>
     
@@ -32,7 +37,7 @@
         <div id="bio-input" class="row space-bottom">
             <div class="col-lg-2 col-sm-4 mx-auto">Bio:</div>
             <div class="col-sm-8 content-div">        
-                <textarea name="bio"></textarea>
+                <textarea name="bio">{{old('bio')}}</textarea>
             </div>
         </div>
     

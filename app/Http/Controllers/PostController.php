@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\Post;
 use App\Models\Comment;
+use App\Services\Instagram;
 
 
 class PostController extends Controller
@@ -198,6 +199,11 @@ class PostController extends Controller
     {
         $post->delete();
         return redirect()->route('posts.index');
+    }
+
+    //Service Container Fun
+    public function postToInstagram(Instagram $indiegram, $text) {
+        echo $indiegram->post($text);
     }
 
 }

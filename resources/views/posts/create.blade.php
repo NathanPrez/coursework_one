@@ -10,9 +10,19 @@
             <div class="col-sm-8 content-div">
                 <!-- checkType will hide/show certain input fields -->           
                 <select name="type" onchange="checkType()">
-                    <option value="shot" selected>Shot</option>
-                    <option value="chat">Chat</option>
-                    <option value="meet">Meet</option>
+                    @if(old('type') == 'shot')
+                        <option value="shot" selected>Shot</option>
+                        <option value="chat">Chat</option>
+                        <option value="meet">Meet</option>
+                    @elseif(old('type') == 'chat')
+                        <option value="shot">Shot</option>
+                        <option value="chat" selected>Chat</option>
+                        <option value="meet">Meet</option>
+                    @elseif(old('type') == 'meet')
+                        <option value="shot">Shot</option>
+                        <option value="chat">Chat</option>
+                        <option value="meet" selected>Meet</option>
+                    @endif
                 </select>
             </div>
         </div>
@@ -20,7 +30,7 @@
         <div class="row">
             <div class="col-lg-2 col-sm-4 mx-auto">Content:</div>
             <div class="col-sm-8 content-div">        
-                <textarea name="body" required></textarea>
+                <textarea name="body" required>{{ old('body')}}</textarea>
             </div>
         </div>
     
