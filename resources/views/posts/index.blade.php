@@ -83,5 +83,7 @@
         </div>
     @endforeach
 
-
+    <div class="d-flex justify-content-center">
+        {{$posts->appends(['typeFilter' => app('request')->input('typeFilter'), 'creatorFilter' => app('request')->input('creatorFilter')])->links()}}
+    </div>
 @endsection

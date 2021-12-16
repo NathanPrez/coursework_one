@@ -20,27 +20,46 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::all();
+        $posts = Post::simplePaginate(10);
+
+        //Add filters if needed
         if($request->creatorFilter == "follow") 
         {
             $ids = auth()->user()->userProfile->getFollowsId();
-            $posts = Post::whereIn('postable_id', $ids)->get();
+            //check if they have any extra filters
+            if($request->typeFilter == "shot")
+            {
+                $posts = Post::whereIn('postable_id', $ids)->where('type', 'shot')->simplePaginate(10);
+            }
+            elseif($request->typeFilter == "chat")
+            {
+                $posts = Post::whereIn('postable_id', $ids)->where('type', 'chat')->simplePaginate(10);
+            }
+            elseif($request->typeFilter == "meet")
+            {
+                $posts = Post::whereIn('postable_id', $ids)->where('type', 'meet')->simplePaginate(10);
+            }
+            else 
+            {
+                $posts = Post::whereIn('postable_id', $ids)->simplePaginate(10);
+            }
         }
-
-        if($request->typeFilter == "shot")
+        //If they choose all posts
+        else 
         {
-            $typePosts = Post::where('type', 'shot')->get();
-            $posts = $posts->intersect($typePosts);
-        }
-        elseif($request->typeFilter == "chat")
-        {
-            $typePosts = Post::where('type', 'chat')->get();
-            $posts = $posts->intersect($typePosts);
-        }
-        elseif($request->typeFilter == "meet")
-        {
-            $typePosts = Post::where('type', 'meet')->get();
-            $posts = $posts->intersect($typePosts);
+            //check if they have any extra filters
+            if($request->typeFilter == "shot")
+            {
+                $posts = Post::where('type', 'shot')->simplePaginate(10);
+            }
+            elseif($request->typeFilter == "chat")
+            {
+                $posts = Post::where('type', 'chat')->simplePaginate(10);
+            }
+            elseif($request->typeFilter == "meet")
+            {
+                $posts = Post::where('type', 'meet')->simplePaginate(10);
+            }
         }
 
         return view('posts.index', ['posts' => $posts]);
