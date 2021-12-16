@@ -10,7 +10,21 @@
     <h1 class="centre">Notifications</h1>
     @foreach($nots as $not)
         <div class="userbox notbox" onclick="location.href='{{ route('posts.show', ['post'=>  $not->post_id]) }}'">
-            {{$not->notification}}
+            <div class="row">
+                <div class="col-md-10">
+                    {{$not->notification}}
+                </div>
+                <div class="class-md-2">
+                    <form method="post" action="{{ route('notifications.delete', ['not' =>  $not]) }}">
+                        @csrf
+                        @method('DELETE')
+                        <input value="Delete" type="submit">
+                    </form>
+                    
+                </div>
+            </div>
+
+            
         </div>
     @endforeach
 @endsection

@@ -20,7 +20,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::simplePaginate(10);
+        $posts = Post::latest()->simplePaginate(10);
 
         //Add filters if needed
         if($request->creatorFilter == "follow") 
@@ -29,19 +29,19 @@ class PostController extends Controller
             //check if they have any extra filters
             if($request->typeFilter == "shot")
             {
-                $posts = Post::whereIn('postable_id', $ids)->where('type', 'shot')->simplePaginate(10);
+                $posts = Post::whereIn('postable_id', $ids)->where('type', 'shot')->latest()->simplePaginate(10);
             }
             elseif($request->typeFilter == "chat")
             {
-                $posts = Post::whereIn('postable_id', $ids)->where('type', 'chat')->simplePaginate(10);
+                $posts = Post::whereIn('postable_id', $ids)->where('type', 'chat')->latest()->simplePaginate(10);
             }
             elseif($request->typeFilter == "meet")
             {
-                $posts = Post::whereIn('postable_id', $ids)->where('type', 'meet')->simplePaginate(10);
+                $posts = Post::whereIn('postable_id', $ids)->where('type', 'meet')->latest()->simplePaginate(10);
             }
             else 
             {
-                $posts = Post::whereIn('postable_id', $ids)->simplePaginate(10);
+                $posts = Post::whereIn('postable_id', $ids)->latest()->simplePaginate(10);
             }
         }
         //If they choose all posts
@@ -50,15 +50,15 @@ class PostController extends Controller
             //check if they have any extra filters
             if($request->typeFilter == "shot")
             {
-                $posts = Post::where('type', 'shot')->simplePaginate(10);
+                $posts = Post::where('type', 'shot')->latest()->simplePaginate(10);
             }
             elseif($request->typeFilter == "chat")
             {
-                $posts = Post::where('type', 'chat')->simplePaginate(10);
+                $posts = Post::where('type', 'chat')->latest()->simplePaginate(10);
             }
             elseif($request->typeFilter == "meet")
             {
-                $posts = Post::where('type', 'meet')->simplePaginate(10);
+                $posts = Post::where('type', 'meet')->latest()->simplePaginate(10);
             }
         }
 

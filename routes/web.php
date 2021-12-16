@@ -52,8 +52,10 @@ Route::post('/users/{user}/follow', [UserController::class, 'follow'])
     ->name('users.follow');
 Route::delete('/users/{user}/unfollow', [UserController::class, 'unfollow'])
     ->name('users.unfollow');
-Route::get('/notifications/{user}', [UserController::class, 'getNotifications'])
+Route::get('/{user}/notifications', [UserController::class, 'getNotifications'])
     ->name('users.notifications');
+Route::delete('/notifications/{not}', [UserController::class, 'deleteNotifications'])
+    ->name('notifications.delete');
 
 Route::post("/comment/{post}", [CommentController::class, 'update'])
     ->name('comments.update');

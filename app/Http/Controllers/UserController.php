@@ -127,14 +127,19 @@ class UserController extends Controller
         if($user->userProfile == null)
         {
             $match = ['notable_id' => $user->adminProfile->id, 'notable_type' => 'App\Models\AdminProfile'];
-            $nots = Notification::where($match)->get();
+            $nots = Notification::where($match)->latest()->get();
         }
         else
         {
             $match = ['notable_id' => $user->userProfile->id, 'notable_type' => 'App\Models\userProfile'];
-            $nots = Notification::where($match)->get();
+            $nots = Notification::where($match)->latest()->get();
         }
 
-        return view("users.notifications", ['nots' => $nots]);
+        return view("users.notifications", ['user' => $user, 'nots' => $nots]);
+    }
+
+    public function deleteNotifications(Notification $not) {
+        $not->delete();
+        return redirect()->route("users.notifications", ['user' => auth()->user()]);
     }
 }

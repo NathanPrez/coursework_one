@@ -62,11 +62,11 @@ class CommentController extends Controller
                     
                     if ($user->UserProfile !== null) 
                     {
-                        $n->notable_type = "App\Models\UserProfile";
+                        $n->notable_type = "App\Models\AdminProfile";
                     } 
                     else 
                     {
-                        $n->notable_type = "App\Models\AdminProfile";
+                        $n->notable_type = "App\Models\UserProfile";
                     }
 
                     $n->post_id = $post->id;
