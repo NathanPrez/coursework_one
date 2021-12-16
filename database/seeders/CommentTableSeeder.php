@@ -20,6 +20,6 @@ class CommentTableSeeder extends Seeder
         $c->commentable_type = "App\Models\UserProfile";
         $c->save();
 
-        //comments = Comment::factory()->count(10)->create();
+        $comments = Comment::factory()->count(10)->create();
     }
 }

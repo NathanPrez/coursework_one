@@ -14,10 +14,14 @@ use App\Models\Notification;
 
 class UserController extends Controller
 {
+
+    //Show user's profile
     public function show(User $user)
     {
-
-        /* Check if the user is logged in */
+        /* 
+            Check if the user is logged in 
+            Needed for following/unfollowing
+        */
         if (auth()->user() == null or auth()->user()->userProfile == null)
         {
             $viewingUser = null;
@@ -41,13 +45,14 @@ class UserController extends Controller
         return view('users.show', ['user' => $user, 'viewingUser' => $viewingUser, 'posts' => $posts]);
     }
 
-
+    //create userprofile/adminprofile
     public function create()
     {
         return view('users.create');
     }
 
 
+    //Store created user/admin profile
     public function store(Request $request)
     {        
         /* Creating and adding data to model */
@@ -78,6 +83,7 @@ class UserController extends Controller
         /* If they have uploaded an image */
         if ($request->hasFile('file')) 
         {
+            //Only allow png and jpeg for storage size, and security
             $request->validate([
                 "image" => "mimes:jpeg,png",
             ]);
@@ -93,6 +99,7 @@ class UserController extends Controller
     }
 
 
+    //reset session keys to logout
     public function logout(Request $request)
     {
         Auth::logout();
@@ -105,6 +112,7 @@ class UserController extends Controller
     }   
 
 
+    //get logged in user and profile's user, then add to pivot table
     public function follow(User $user)
     {
         $viewingUser = auth()->user()->userProfile;
@@ -114,6 +122,7 @@ class UserController extends Controller
     }
     
 
+    //get logged in user and profile's user, then remove from pivot table
     public function unfollow(User $user)
     {
         $viewingUser = auth()->user()->userProfile;
@@ -122,8 +131,11 @@ class UserController extends Controller
         return redirect()->route("users.show", ['user' => $user]);
     } 
 
+
+    //index of all notifications for a user
     public function getNotifications(User $user) 
     {
+        //Get user/admin profile, and get all notifications attached to profile
         if($user->userProfile == null)
         {
             $match = ['notable_id' => $user->adminProfile->id, 'notable_type' => 'App\Models\AdminProfile'];
@@ -138,6 +150,8 @@ class UserController extends Controller
         return view("users.notifications", ['user' => $user, 'nots' => $nots]);
     }
 
+
+    //delete selected notification
     public function deleteNotifications(Notification $not) {
         $not->delete();
         return redirect()->route("users.notifications", ['user' => auth()->user()]);

@@ -13,7 +13,7 @@ class AdminProfileTableSeeder extends Seeder
      */
     public function run()
     {
-        $up = new UserProfile;
+        $up = new AdminProfile;
         $up->user_id = 1;
         $up->save();
     }

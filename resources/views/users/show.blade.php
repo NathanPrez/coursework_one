@@ -3,7 +3,7 @@
 @section('css')
     <link rel="stylesheet" href="{{ URL::asset('css/user.css') }}">
 @endsection
-
+<!-- User Profile -->
 @section('content')
     <button onclick="location.href='{{ route('posts.index') }}'">Back</button>
 
@@ -35,6 +35,7 @@
                 </div>
             @endguest
             
+            <!-- Username -->
             @auth
                 <div class="col-md-6 my-auto">
                     @if($user->userProfile == null)
@@ -55,7 +56,7 @@
                                 <button type="submit">Unfollow</button>
                             </form>
                         @elseif($viewingUser->id == $user->userProfile->id)
-                        
+                        <!-- Blank for if they're viewing their own profile -->
                             
                         @else
                             <!-- If they aren't following then offer to follow -->
@@ -70,6 +71,7 @@
         </div>
     </div>
 
+    <!-- All user's posts -->
     @foreach($posts as $post)
         <div class="clickable">
             <div class="postbox {{$post->type}}" onclick="location.href='{{ route('posts.show', ['post'=>$post]) }}'">

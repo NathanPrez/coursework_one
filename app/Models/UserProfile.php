@@ -20,6 +20,7 @@ class UserProfile extends Model
         return $this->belongsToMany(UserProfile::class, 'user_profile_user_profile', 'user_profile_id', 'follows_id');
     }
 
+    //Gets array of everyone the user is following
     public function getFollowsId() {
         return $this->follows->pluck('id');
     }

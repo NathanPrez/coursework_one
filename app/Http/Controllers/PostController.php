@@ -14,19 +14,19 @@ use App\Services\Instagram;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ 
+    //Get all posts, with filters
     public function index(Request $request)
     {
+        //All posts
         $posts = Post::latest()->simplePaginate(10);
 
         //Add filters if needed
         if($request->creatorFilter == "follow") 
         {
+            //ids of who the user follows
             $ids = auth()->user()->userProfile->getFollowsId();
+
             //check if they have any extra filters
             if($request->typeFilter == "shot")
             {
@@ -45,10 +45,10 @@ class PostController extends Controller
                 $posts = Post::whereIn('postable_id', $ids)->latest()->simplePaginate(10);
             }
         }
-        //If they choose all posts
+        //If they choose all posts, or aren't logged in
         else 
         {
-            //check if they have any extra filters
+            //check if they have any filters
             if($request->typeFilter == "shot")
             {
                 $posts = Post::where('type', 'shot')->latest()->simplePaginate(10);
@@ -66,22 +66,15 @@ class PostController extends Controller
         return view('posts.index', ['posts' => $posts]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+    //return create view
     public function create()
     {
         return view('posts.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
+    //store created post
     public function store(Request $request)
     {
         $validatedData = $request->validate([
@@ -125,16 +118,12 @@ class PostController extends Controller
         return redirect()->route('posts.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
+    //Show specific post, with extra details
     public function show(Post $post)
     {
         $user = auth()->user();
-        //Pass logged in user details for ajax comments
+        //If logged in, pass logged in user details for ajax comments
         if($user !== null) 
         {
             if ($user->UserProfile !== null) 
@@ -149,18 +138,14 @@ class PostController extends Controller
             }
             return view('posts.show', ['post' => $post, 'userId' => $userId, 'userType' => $userType]);
         }
+        //If user is not logged in
         else {
             return view('posts.show', ['post' => $post]);
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+    //Update post
     public function update(Request $request, Post $post)
     {
         $validatedData = $request->validate([
@@ -171,9 +156,8 @@ class PostController extends Controller
 
         /* 
             If they have uploaded a file 
-            and if they chose the 'shot' from dropwdown - extra security
         */
-        if ($request->hasFile('file') and $p->type == "shot") 
+        if ($request->hasFile('file')) 
         {
             $request->validate([
                 "image" => "mimes:jpeg,png,mp4,mov",
@@ -189,20 +173,18 @@ class PostController extends Controller
         return redirect()->route('posts.show', ["post" => $post]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
+    //Delete Post
     public function destroy(Post $post)
     {
         $post->delete();
         return redirect()->route('posts.index');
     }
 
+
     //Service Container Fun
     public function postToInstagram(Instagram $indiegram, $text) {
+        //Reference instagram and pass it data to 'post'
         echo $indiegram->post($text);
     }
 

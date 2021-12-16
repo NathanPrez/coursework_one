@@ -1,15 +1,17 @@
 @extends('layouts.app')
+    <!-- Showing full post -->
 
 @section('content')
-    <!-- Showing full post -->
     <button class="back" onclick="location.href='{{ route('posts.index') }}'">Back</button>
     
     <div class="postbox {{$post->type}}">
         <div class="postbox__header">
             <div class="row">
                 <div class="col-sm-9 col-8 my-auto">
+                    <!-- Profile Picture -->
                     <img src="{{ asset('storage/user_content/' . $post->postable->profilePicturePath) }}" alt="Profile Picture">
 
+                    <!-- Profile name / link -->
                     <a href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">
                         <!-- Show username if user, otherwise, show 'Admin' + id -->
                         @if($post->postable->user->userProfile == null)
@@ -19,6 +21,7 @@
                         @endif
                     </a>
                 </div>
+                <!-- Edit / Delete button for the logged in creator or admin -->
                 @auth
                     @if ($userId == $post->postable->id or $userType == "AdminProfile")
                         <div class="col-sm-3 col-4 my-auto centre edit-buttons">
@@ -29,6 +32,7 @@
                 @endauth
             </div>
         </div>
+        <!-- Content -->
         <div id="post-content" class="postbox__content">
             <p>{{$post->body}}</p>
             @if($post->type == "shot")
@@ -43,9 +47,14 @@
             @endif
         </div>
 
+        <!-- 
+            Form to edit the post, 
+            originally hidden, shown by 'edit' button
+        -->
         <div id="post-change" class="postbox__content hide">
             <form method="post" action="{{ route('posts.update', ['post' => $post]) }}" enctype="multipart/form-data">
                 @csrf
+                <!-- Can only change content, not post type -->
                 <div class="row">
                     <div class="col-lg-2 col-sm-4">Content:</div>
                     <div class="col-sm-8 content-div">        
@@ -53,6 +62,7 @@
                     </div>
                 </div>
 
+                <!-- If its a shot type, allow image/video change -->
                 @if($post->type == "shot")
                     <div id="image-upload" class="row">
                         <div class="col-lg-2 col-sm-4">Video / Image:</div>
@@ -62,6 +72,7 @@
                     </div>
                 @endif
                 
+                <!-- Submit or close edit form -->
                 <div class="row">
                     <div class="col-lg-2 col-sm-4"></div>
                     <div class="col-sm-8 content-div">        
@@ -73,7 +84,7 @@
         </div>
 
 
-        
+        <!-- AJAX Comments -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js" 
         integrity="sha512-u9akINsQsAkG9xjc1cnGF4zw5TFDwkxuc9vUp5dltDWYCSmyd0meygbvgXrlc/z7/o4a19Fb5V0OUE58J7dcyw==" 
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -92,11 +103,12 @@
                     <a v-else disabled>Admin @{{ comment.commentable.id}}</a>
                 
                     @auth
-                        <!-- Check if comment owner is the user, to enabled updating -->
+                        <!-- Only logged in comment owner or admin can edit/delete -->
                         <div v-if="comment.commentable.id == {{$userId}} || {{$userType}} == 'AdminProfile'" class="row">
                             <div class="col-md-9 my-auto">
                                 <p>@{{ comment.body }}</p>
 
+                                <!-- Comment edit form -->
                                 <form class="hide" method="post" action="{{ route('comments.update', ['post' => $post]) }}" enctype="multipart/form-data">
                                     @csrf
                                     <input name="body" v-bind:value="comment.body" type="text">
@@ -105,6 +117,8 @@
                                     <input onclick="closeEdit(this)" value="Cancel" type="button">
                                 </form>
                             </div>
+
+                            <!-- Comment edit/delete buttons -->
                             <div class="comment-change col-md-3 mx-auto centre">
                                 <a onclick="openEdit(this)">Edit</a>
 
@@ -117,12 +131,13 @@
     
                             </div>
                         </div>
-                        <!-- If not owner, just display message -->
+                        <!-- If not owner/admin, just display message -->
                         <div v-else>
                             <p>@{{ comment.body }}</p>
                         </div>
                     @else
-                        <!-- If not owner, just display message -->
+                        <!-- If not owner/admin, just display message -->
+                        <!-- This is repeated due to the mix of blade and Vue -->
                         <div>
                             <p>@{{ comment.body }}</p>
                         </div>
@@ -147,6 +162,7 @@
         </div>
     </div>
 
+    <!-- Pop up making sure user wants to delete post -->
     <div id="deletePostModal" class="modal" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <form id="delete-form" method="post" action="{{ route('posts.delete', ['post' => $post]) }}">
@@ -176,6 +192,7 @@
             el: "#comments",
             data: {
                 comments: [],
+                //only logged in users can create a comment
                 @auth
                     newCommentBody: '',
                     editCommentBody:'',

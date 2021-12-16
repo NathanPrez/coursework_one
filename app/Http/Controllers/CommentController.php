@@ -13,16 +13,17 @@ use App\Models\Notification;
 
 class CommentController extends Controller
 {
-        //Get comments
+        //Get all comments related to the given post
         public function apiIndex(Post $post)
         {
             $postComments = Comment::with('commentable')->where('post_id', $post->id)->get();
-    
             return $postComments;
         }
     
+        //Store comments realtime
         public function apiStore(Request $request, Post $post)
         {
+            //passed user details through the request 
             $validatedData = $request->validate([
                 "body" => "required|max:200",
                 "userId" => "required|integer",
@@ -45,9 +46,10 @@ class CommentController extends Controller
             //create a notification for each user
             foreach($allUsers as $user)
             {
-                //No notification to theirself
+                //No notification to the comment creator
                 if($user->id !== $validatedData["userId"]) {
                     $n = new Notification;
+                    //if user give their username, if admin give 'Admin' id
                     if ($validatedData["userType"] == "UserProfile")
                     {
                         $userpof = UserProfile::find($validatedData["userId"]);
@@ -58,8 +60,8 @@ class CommentController extends Controller
                         $n->notification = "Admin ".$validatedData["userId"]." has commented on a post you have interacted with.";
                     }                
                     
+                    //Link to user
                     $n->notable_id = $user->id;
-                    
                     if ($user->UserProfile !== null) 
                     {
                         $n->notable_type = "App\Models\AdminProfile";
@@ -105,6 +107,7 @@ class CommentController extends Controller
             $c = new Comment();
             $c->body = $validatedData["body"];
     
+            //Link to user
             if ($validatedData["userType"] == "UserProfile")
             {
                 $c->commentable_type = "App\Models\UserProfile";
@@ -118,13 +121,16 @@ class CommentController extends Controller
             $c->post_id = $post->id;
             $c->save();
 
+            //Get all comments, including one just created
             $postComments = Comment::with('commentable')->where('post_id', $post->id)->get();
     
             return $postComments;
         }
 
+        //Update comment, not realtime
         public function update(Request $request, Post $post)
         {
+            //Like apiStore, got userId through request
             $validatedData = $request->validate([
                 "body" => "required|max:200",
                 "commentId" => "required|integer",
@@ -137,6 +143,7 @@ class CommentController extends Controller
             return redirect()->route('posts.show', ["post" => $post]);
         }
 
+        //Delete comment, not realtime
         public function destroy(Request $request, Post $post) {
             Comment::find($request->commentId)->delete();
             return redirect()->route('posts.show', ["post" => $post]);

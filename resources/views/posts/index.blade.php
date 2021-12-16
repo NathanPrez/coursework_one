@@ -4,10 +4,12 @@
     <!-- Loop through all posts -->
     <form id="posts-filter" method="get" action="{{ route('posts.index') }}">
         <div class="row">
+            <!-- Filters -->
             <div class="col-md-6 centre">
+                <!-- Post Type Filter -->
                 Post Type:
                 <select name="typeFilter" onchange="document.forms['posts-filter'].submit();">
-                    <!-- Get selected filters -->
+                    <!-- Get previously selected filters -->
                     @if(app('request')->input('typeFilter') == 'all' or app('request')->input('typeFilter') == null)
                         <option value="all" selected="selected">All</option>
                         <option value="shot">Shots</option>
@@ -31,6 +33,10 @@
                     @endif
                 </select>
             </div>
+            <!-- 
+                Creator filter
+                Only available to those logged in
+             -->
             @auth
                 <div class="col-md-6 centre">
                     @if(auth()->user()->userProfile !== null)
@@ -47,17 +53,17 @@
                     @endif
                 </div>
             @endauth
-
         </div>
-
-
     </form>
 
+    <!-- All posts -->
     @foreach($posts as $post)
         <div class="clickable">
             <div class="postbox {{$post->type}}" onclick="location.href='{{ route('posts.show', ['post'=>$post]) }}'">
                 <div class="postbox__header">
+                    <!-- Profile Pic -->
                     <img src="{{ asset('storage/user_content/' . $post->postable->profilePicturePath) }}" alt="Profile Picture">
+                    <!-- Profile Name / Link -->
                     <a href="{{ route('users.show', ['user' => $post->postable->user->id]) }}">
                         <!-- Show username if user, otherwise, show 'Admin' + id -->
                         @if($post->postable->user->userProfile == null)
@@ -67,6 +73,7 @@
                         @endif
                     </a>
                 </div>
+                <!-- Content -->
                 <div class="postbox__content">
                     <p>{{$post->body}}</p>
                     @if($post->type == "shot") 
@@ -84,7 +91,9 @@
         </div>
     @endforeach
 
+    <!-- Pagination -->
     <div class="d-flex justify-content-center">
+        <!-- appends() to keep the filters in the url -->
         {{$posts->appends(['typeFilter' => app('request')->input('typeFilter'), 'creatorFilter' => app('request')->input('creatorFilter')])->links()}}
     </div>
 @endsection

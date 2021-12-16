@@ -16,11 +16,9 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script type="text/javascript" src="{{ URL::asset('js/master.js') }}"></script>
-
-        <!-- Page specific JS -->
-        @yield('js')
     </head>
 
+    <!-- Main Layout -->
     <body>
         <!-- Navigation bar -->
         <nav class="navbar navbar-expand-md navbar-dark">
@@ -40,7 +38,7 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item"> <a class="nav-link" href="{{ route('posts.index') }}">Cruise</a> </li>
                     @auth
-                        <!-- Only logged in users can view their profile/upload -->
+                        <!-- Only logged in users can view their profile/notifications and upload -->
                         <li class="nav-item"> <a class="nav-link" href="{{ route('users.show', ['user' => auth()->user()]) }}">My Deck</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('posts.create') }}">Create Post</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('users.notifications', ['user' => auth()->user()]) }}">Notifications</a> </li>

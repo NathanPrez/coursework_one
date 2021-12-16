@@ -27,6 +27,6 @@ class PostTableSeeder extends Seeder
         $p2->postable_type = "App\Models\UserProfile";
         $p2->save();
 
-        //$posts = Post::factory()->count(5)->create();
+        $posts = Post::factory()->count(15)->create();
     }
 }
