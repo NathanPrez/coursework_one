@@ -45,11 +45,51 @@ class CommentController extends Controller
             //create a notification for each user
             foreach($allUsers as $user)
             {
+                //No notification to theirself
+                if($user->id !== $validatedData["userId"]) {
+                    $n = new Notification;
+                    if ($validatedData["userType"] == "UserProfile")
+                    {
+                        $userpof = UserProfile::find($validatedData["userId"]);
+                        $n->notification = $userpof->username." has commented on a post you have interacted with.";
+                    }
+                    else 
+                    {
+                        $n->notification = "Admin ".$validatedData["userId"]." has commented on a post you have interacted with.";
+                    }                
+                    
+                    $n->notable_id = $user->id;
+                    
+                    if ($user->UserProfile !== null) 
+                    {
+                        $n->notable_type = "App\Models\UserProfile";
+                    } 
+                    else 
+                    {
+                        $n->notable_type = "App\Models\AdminProfile";
+                    }
+
+                    $n->post_id = $post->id;
+                    $n->save();
+                }
+            }
+
+            //Create notification for post's owner
+            if($post->postable->id !== $validatedData["userId"]) {
                 $n = new Notification;
-                $n->notification = "Someone has commented on a post you interacted with.";
-                $n->notable_id = $user->id;
-                
-                if ($user->UserProfile !== null) 
+            
+                if ($validatedData["userType"] == "UserProfile")
+                {
+                    $userprof = UserProfile::find($validatedData["userId"]);
+                    $n->notification = $userprof->username." has commented on your post.";
+                }
+                else 
+                {
+                    $n->notification = "Admin ".$validatedData["userId"]." has commented on your post.";
+                }
+    
+                $n->notable_id = $post->postable->id;
+                if ($post->postable !== null) 
                 {
                     $n->notable_type = "App\Models\UserProfile";
                 } 
@@ -57,36 +97,9 @@ class CommentController extends Controller
                 {
                     $n->notable_type = "App\Models\AdminProfile";
                 }
-
                 $n->post_id = $post->id;
                 $n->save();
             }
-
-            //Create notification for post's owner
-            $n = new Notification;
-            
-            if ($validatedData["userType"] == "UserProfile")
-            {
-                $user = User::where('id', $validatedData["userId"])->get();
-                $n->notification = $user->id." has commented on your post.";
-            }
-            else 
-            {
-                $n->notification = "Admin ".$validatedData["userId"]." has commented on your post.";
-            }
-
-            $n->notable_id = $post->postable->id;
-            if ($post->postable !== null) 
-            {
-                $n->notable_type = "App\Models\UserProfile";
-            } 
-            else 
-            {
-                $n->notable_type = "App\Models\AdminProfile";
-            }
-            $n->post_id = $post->id;
-            $n->save();
-    
 
             //create comment
             $c = new Comment();
