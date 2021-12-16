@@ -11,6 +11,9 @@
     padding-top: 1em;
     padding-bottom: 1em;
 }
+.notbox {
+    cursor: pointer;
+}
 .userbox h2 {
     font-size: 22px;
     margin-top: 1em;

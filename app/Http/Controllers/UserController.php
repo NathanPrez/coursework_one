@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\UserProfile;
 use App\Models\AdminProfile;
 use App\Models\Post;
+use App\Models\Notification;
+
 
 class UserController extends Controller
 {
@@ -120,7 +122,19 @@ class UserController extends Controller
         return redirect()->route("users.show", ['user' => $user]);
     } 
 
-    public function notifications(User $user) {
+    public function getNotifications(User $user) 
+    {
+        if($user->userProfile == null)
+        {
+            $match = ['notable_id' => $user->adminProfile->id, 'notable_type' => 'App\Models\AdminProfile'];
+            $nots = Notification::where($match)->get();
+        }
+        else
+        {
+            $match = ['notable_id' => $user->userProfile->id, 'notable_type' => 'App\Models\userProfile'];
+            $nots = Notification::where($match)->get();
+        }
 
+        return view("users.notifications", ['nots' => $nots]);
     }
 }

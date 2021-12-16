@@ -3,8 +3,6 @@
 @section('content')
     <!-- Showing full post -->
     <button class="back" onclick="location.href='{{ route('posts.index') }}'">Back</button>
-
-    {{ $post->comments }}
     <div class="postbox {{$post->type}}">
         <div class="postbox__header">
             <div class="row">

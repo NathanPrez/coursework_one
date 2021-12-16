@@ -43,6 +43,7 @@
                         <!-- Only logged in users can view their profile/upload -->
                         <li class="nav-item"> <a class="nav-link" href="{{ route('users.show', ['user' => auth()->user()]) }}">My Deck</a> </li>
                         <li class="nav-item"> <a class="nav-link" href="{{ route('posts.create') }}">Create Post</a> </li>
+                        <li class="nav-item"> <a class="nav-link" href="{{ route('users.notifications', ['user' => auth()->user()]) }}">Notifications</a> </li>
                     @endauth
                 </ul>
 
