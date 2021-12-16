@@ -101,10 +101,10 @@
                     <!-- Check for type of user, to display username or admin id -->
                     <a v-if="comment.commentable.hasOwnProperty('username')" disabled>@{{ comment.commentable.username }}</a>
                     <a v-else disabled>Admin @{{ comment.commentable.id}}</a>
-                
+
                     @auth
                         <!-- Only logged in comment owner or admin can edit/delete -->
-                        <div v-if="comment.commentable.id == {{$userId}} || {{$userType}} == 'AdminProfile'" class="row">
+                        <div v-if="comment.commentable.id == {{$userId}} || '{{$userType}}' == 'AdminProfile'" class="row">
                             <div class="col-md-9 my-auto">
                                 <p>@{{ comment.body }}</p>
 
