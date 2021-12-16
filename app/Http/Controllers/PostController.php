@@ -20,11 +20,11 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::simplePaginate(10);
+        $posts = Post::all();
         if($request->creatorFilter == "follow") 
         {
             $ids = auth()->user()->userProfile->getFollowsId();
-            $posts = Post::whereIn('id', $ids)->get();
+            $posts = Post::whereIn('postable_id', $ids)->get();
         }
 
         if($request->typeFilter == "shot")

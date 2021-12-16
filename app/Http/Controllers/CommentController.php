@@ -64,7 +64,17 @@ class CommentController extends Controller
 
             //Create notification for post's owner
             $n = new Notification;
-            $n->notification = "Someone has commented on your post.";
+            
+            if ($validatedData["userType"] == "UserProfile")
+            {
+                $user = User::where('id', $validatedData["userId"])->get();
+                $n->notification = $user->id." has commented on your post.";
+            }
+            else 
+            {
+                $n->notification = "Admin ".$validatedData["userId"]." has commented on your post.";
+            }
+
             $n->notable_id = $post->postable->id;
             if ($post->postable !== null) 
             {
